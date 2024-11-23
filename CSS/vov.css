@@ -40,6 +40,7 @@ body {
     height: 100vh;
     width: 100vw;
     background: #2b3952;
+    overflow: hidden;
 }
 
 header {
@@ -108,4 +109,78 @@ header i {
 
 #voiceDialogue div * {
     color: var(--pageBackgroundColor);
+}
+
+.ttsSampleContainer {
+    height: 100%;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: 50px;
+}
+
+#testSounds {
+    display: grid;
+    gap: 10px;
+    place-self: center;
+    justify-content: center;
+    grid-template-columns: repeat(4, 1fr);
+    /* Set 5 equal-width columns */
+}
+
+#testSounds div {
+    height: 7rem;
+    width: 7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    justify-content: flex-end;
+    text-align: start;
+    background-color: #243149;
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.2s ease-in-out;
+}
+#testSounds div::before{
+    content: '';
+    position: absolute;
+    height: 50%;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%; 
+    background-color: linear-gradient(#e66465, #9198e5);
+}
+#testSounds div p{
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 2;
+    
+
+
+}
+
+#testSounds div:hover {
+    transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+    #testSounds {
+        gap: 30px;
+        width: 50%;
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .ttsSampleContainer {
+        margin-top: 30px;
+    }
+    #testSounds div {
+        height: 8rem;
+        width: 8rem;
+    }
 }
