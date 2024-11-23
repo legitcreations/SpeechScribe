@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+
+* {
+  padding: 0;
+  font-family: "Fredoka", sans-serif;
+  margin: 0;
+  font-optical-sizing: auto;
+  font-style: normal;
+  list-style: none;
+  font-variation-settings:
+    "wdth" 100;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  transition: .3s ease 0s;
+  text-decoration: none;
+  color: #000000;
+}
+::-webkit-scrollbar {
+  width: 0px; /* Width of scrollbar */
+}
+/* color syntax */
+:root {
+  --faintBlue: #ADBBDA5E;
+  --borderLineWidth: 1px;
+  --borderRadius: 10px;
+  --dimBlue: #4F2FE8FC;
+  --lightBlue: #7091E6;
+  --darkBlue: #8697CA;
+  --faintBlack: #6B6B6B;
+  --pageBackgroundColor: #EDE8F5;
+  --paddingSmall: 10px;
+  --paddingBig: 20px;
+}
+body{
+  background: white;
+}
+header{
+  width: 100%;
+  background: var(--faintBlue);
+  padding: var(--paddingBig);
+  display: flex;
+  position: relative;
+  justify-content: center;
+  font-weight:500;
+}
+header i{
+  position: absolute;
+  left: 20px;
+  cursor: pointer;
+}
+.aboutTab{
+  padding: 10px;
+  height: auto;
+  position: relative;
+}
+.aboutTab div{
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  max-height: 75vh;
+}
+.aboutTab div a{
+  cursor: pointer;
+  padding: 20px 10px;
+  display: flex;
+  padding-right: 20px;
+  align-items: center;
+  justify-content: space-between;
+  background: whitesmoke;
+}
+.aboutTab div a i{
+  color: #6B6B6B;
+  font-size: 12px;
+}
+.copyright{
+  position: fixed;
+  bottom:0 ;
+  width: 100%;
+  display: grid;
+  padding: var(--paddingSmall);
+  font-size: 12px;
+  place-items: center;
+}
+.copyright div{
+  text-align: center;
+}
+.copyright div p{
+  color: #A2A2A287;
+}

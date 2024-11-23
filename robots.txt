@@ -1,0 +1,6 @@
+User-agent: *
+sitemap: https://speechscribeapp.web.app/sitemap.xml
+Disallow: /join
+Disallow: /login
+Disallow: /account-recovery
+Allow: /

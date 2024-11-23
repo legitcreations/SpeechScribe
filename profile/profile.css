@@ -1,0 +1,413 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+
+* {
+  padding: 0;
+  font-family: "Fredoka", sans-serif;
+  margin: 0;
+  font-optical-sizing: auto;
+  font-style: normal;
+  list-style: none;
+  font-variation-settings:
+    "wdth" 100;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  transition: .3s ease 0s;
+  text-decoration: none;
+  color: #000000;
+}
+::-webkit-scrollbar {
+  width: 0px; /* Width of scrollbar */
+}
+/* color syntax */
+:root {
+  --faintBlue: #ADBBDA5E;
+  --borderLineWidth: 1px;
+  --borderRadius: 10px;
+  --dimBlue: #4F2FE8FC;
+  --lightBlue: #7091E6;
+  --darkBlue: #8697CA;
+  --faintBlack: #6B6B6B;
+  --pageBackgroundColor: #EDE8F5;
+  --paddingSmall: 10px;
+  --paddingBig: 20px;
+}
+
+body {
+  
+  background-color: white;
+  display: block;
+  padding: var(--paddingSmall);
+}
+
+header {
+  width: 100%;
+  background: var(--faintBlue);
+  padding: var(--paddingBig);
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  justify-content: space-between;
+  font-weight: 500;
+  z-index: 1;
+}
+header i{
+  cursor: pointer;
+}
+.profileContainer {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center
+}
+
+.header {
+  color: var(--dimBlue);
+  font-weight: 600;
+  font-size: 22px;
+  width: 100%;
+}
+
+.userAbout,
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+#bio {
+  line-height: 25px;
+}
+
+.userDetails div,
+#bio {
+  display: grid;
+  cursor: pointer;
+  grid-row-gap: 12px;
+  padding: 10px;
+
+}
+
+.userImage {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 15rem;
+  height: 15rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  box-shadow: 0 0 10px #F2F2F2;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.userImage i {
+  color: var(--dimBlue);
+}
+
+.profileButton {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  background: white;
+  top: 5rem;
+  box-shadow: 0 0 19px #F1F1F1;
+  right: 1rem;
+  z-index: 2;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.show {
+  display: flex;
+}
+
+.profileButton div {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-top: 0.7px solid var(--darkBlue);
+}
+
+.profileButton div:nth-child(1) {
+  border-top: none;
+}
+
+.profileButton div * {
+  color: black;
+}
+
+.userAbout div {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.userAbout i {
+  font-size: 24px;
+  background: white;
+  text-align: center;
+  box-shadow: 0 0 12px #FFFFFF, 3px 3px 10px #0000001C;
+  width: 3rem;
+  height: 3rem;
+  align-items: center;
+  line-height: 3rem;
+  color: var(--dimBlue);
+  border-radius: 50%;
+
+}
+#spinnerBackground{
+  display: grid; 
+  place-items: center;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top:0;
+  left:0;
+  background: #000000BA;
+  z-index: 3;
+}
+#spinnerBackground img{
+  width: 5rem;
+  animation: width .4s ease-in-out infinite;
+}
+@keyframes width{
+  0%{
+    width: 5rem;
+  }
+  50%{
+    width: 7rem;
+  }
+  100%{
+    width: 5rem;
+  }
+}
+.alertContainer{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  left: 0;
+  background: #FFFFFF85;
+  display: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+#closeAlert{
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+.alertBox{
+  width: auto;
+  display: flex;
+  place-self: center;
+  gap: 5px;
+  overflow: hidden;
+  max-width: 13rem;
+  padding: 15px;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 0 10px #EAEAEA;
+  background: #FFFEFE;
+  text-align: center;
+  border-radius: 35px;
+}
+.alertBox img{
+  width:7rem;
+}
+.alertBox p{
+  color: red;
+  max-width: 8.8rem;
+  font-weight: 600;
+  
+}
+#deleteContainerCover{
+  position: fixed;
+  background: #FFFFFF85;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: none;
+  place-items: center;
+  
+}
+#deleteContainerCover.deleteShow{
+  display: grid;
+}
+#deleteContainer{
+  width: 80%;
+  background: white;
+  padding: 20px;
+  display: flex;
+  
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 0 10px #0000001C;
+  border-radius: 20px;
+  gap: 15px;
+  padding-top: 40px;
+  position: relative;
+}
+#svgDiv{
+  padding: 15px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 5px 10px #FFFFFF, 0 -3px 10px #0000001C;
+  position: absolute;
+  top: -35px;
+}
+#header{
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+}
+#bodyText{
+  font-size: 12px;
+  text-align: justify;
+  color: #4E4E4E;
+  line-height: 16px;
+}
+#deleteButton{
+  display: flex;
+  justify-content: right;
+  gap: 10px;
+  width: 100%;
+  cursor: pointer;
+  
+}
+#deleteButton button{
+  padding: 7px 17px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+}
+#deleteButton button:nth-child(2){
+  background: red;
+  color:white;
+  border-radius: 10px;
+}
+#editTab{
+  display: none;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+  z-index: 2;
+}
+#editTab div{
+  display: flex;
+  flex-direction: column;
+  background: whitesmoke;
+  border-radius: 30px;
+  padding: 20px;
+  gap: 20px;
+  overflow: hidden;
+  width: 75%;
+  align-items: center;
+}
+#editTab i{
+  color: #464646;
+  padding: 15px 20px; 
+  background: whitesmoke;
+  border-radius: 30px;
+  font-size: 14px;
+  left: 10px;
+  top: 10px;
+  position: absolute;
+  
+}
+#inputId{
+  width: 100%;
+  font-size: 16px;
+  padding: 15px;
+  outline: none;
+  border: none;
+  border-radius: 30px;
+}
+#saveFileNameButton{
+  padding: 16px 20px; 
+  border: none;
+  border-radius: 20px;
+  background: var(--dimBlue);
+  color: #fff;
+  font-size: 16px;
+}
+@media (min-width:768px) {
+  body {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+  }
+
+  .profileContainer {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    padding: 40px;
+  }
+
+  header {
+    font-size: 1.8rem;
+  }
+
+  .header {
+    font-size: 1.8rem;
+  }
+
+  .userImage {
+    display: flex;
+    width: 45rem;
+    height: 16rem;
+  }
+
+  .userDetails div,
+  #bio {
+    background: none;
+    font-size: 1rem;
+  }
+
+  #bio {
+    line-height: 35px;
+  }
+  .userAbout i {
+    width: 3.5rem;
+    height: 3.5rem;
+    line-height: 3.5rem;
+  }
+  #deleteContainer{
+    width:60%;
+  }
+  #header{
+    font-size: 20px;
+  }
+  #bodyText{
+    font-size: 16px;
+    line-height: 25px;
+  }
+  #deleteButton button{
+    font-size: 19px;
+    padding: 10px 20px;
+  }
+  #deleteButton button:nth-child(2){
+    border-radius: 15px;
+  }
+}

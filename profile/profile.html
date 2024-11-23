@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-PJRZD4KN');
+  </script>
+  <!-- End Google Tag Manager -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-239G8L2PGX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-239G8L2PGX');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Manage your profile and recordings with SpeechScribe, the ultimate voice transcription app.">
+  <meta name="keywords" content="SpeechScribe, voice transcription, profile, recordings, audio, app">
+  <meta name="author" content="Legitcreations">
+  <meta name="robots" content="index, follow">
+  <meta
+            property="og:image"
+            content="https://speechscribeapp.web.app/logo.png"
+        />
+        <meta
+            property="og:url"
+            content="https://speechscribeapp.web.app/login"
+        />
+        <meta property="og:type" content="website" />
+   <link rel="canonical" href="https://speechscribeapp.web.app/profile" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+  <title>Profile | SpeechScribe</title>
+  <link rel="stylesheet" href="/profile/profile.css">
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJRZD4KN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+  <header class="settingsHeader">
+    <i onclick="window.history.back()" class="fas fa-arrow-left"></i>
+    <p class="headerText">
+      Profile
+    </p>
+    <i onclick="showmenu()" class="fas fa-ellipsis-vertical"></i>
+  </header>
+  <div class="alertContainer">
+    <svg id="closeAlert" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
+      <path fill="black" d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V7h16l.001 12H4z" />
+      <path fill="black" d="m15.707 10.707-1.414-1.414L12 11.586 9.707 9.293l-1.414 1.414L10.586 13l-2.293 2.293 1.414 1.414L12 14.414l2.293 2.293 1.414-1.414L13.414 13z" />
+    </svg>
+    <div class="alertBox">
+      <img src="/img/alert.png" alt="alertImg" />
+      <p id="alerHeader">
+        ALERT
+      </p>
+      <p id="alertText" style="color: black; font-weight: 400;font-size:14px;"></p>
+    </div>
+  </div>
+  <div class="profileContainer">
+    <div class="userAbout">
+      <p class="header">
+        ABOUT ME
+      </p>
+      <p id="bio"></p>
+    </div>
+    <div id="spinnerBackground">
+      <img src="/img/logo.png" alt="logo.png">
+    </div>
+    <div class="userImage">
+      <i id="profilePhoto" class="fas fa-fade fa-image"></i>
+    </div>
+    <div class="profileButton">
+      <div id="logOutButton">
+        <i class="fas fa-sign-out"></i>
+        <p>
+          Log out
+        </p>
+      </div>
+      <div id="deleteAccount">
+        <i class="fas fa-trash"></i>
+        <p>
+          Delete account
+        </p>
+      </div>
+    </div>
+    <div class="userDetails">
+      <p class="header">
+        DETAILS
+      </p>
+      <div class="userAbout">
+        <div>
+          <i class="fa fa-envelope"></i>
+          <p id="email"></p>
+        </div>
+        <div>
+          <i class="fa fa-phone"></i>
+          <p id="telephone"></p>
+        </div>
+        <div>
+          <i class="fa fa-user-circle"></i>
+          <p id="username"></p>
+        </div>
+        <div>
+          <i class="fa fa-mars"></i>
+          <p id="age"></p>
+        </div>
+        <div>
+          <i class="fa fa-location-pin"></i>
+          <p id="address"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="deleteContainerCover">
+    <div id="deleteContainer">
+      <div id="svgDiv">
+        <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" height="36" width="36" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 456 511.82">
+          <path fill="#FD3B3B" d="M48.42 140.13h361.99c17.36 0 29.82 9.78 28.08 28.17l-30.73 317.1c-1.23 13.36-8.99 26.42-25.3 26.42H76.34c-13.63-.73-23.74-9.75-25.09-24.14L20.79 168.99c-1.74-18.38 9.75-28.86 27.63-28.86zM24.49 38.15h136.47V28.1c0-15.94 10.2-28.1 27.02-28.1h81.28c17.3 0 27.65 11.77 27.65 28.01v10.14h138.66c.57 0 1.11.07 1.68.13 10.23.93 18.15 9.02 18.69 19.22.03.79.06 1.39.06 2.17v42.76c0 5.99-4.73 10.89-10.62 11.19-.54 0-1.09.03-1.63.03H11.22c-5.92 0-10.77-4.6-11.19-10.38 0-.72-.03-1.47-.03-2.23v-39.5c0-10.93 4.21-20.71 16.82-23.02 2.53-.45 5.09-.37 7.67-.37zm83.78 208.38c-.51-10.17 8.21-18.83 19.53-19.31 11.31-.49 20.94 7.4 21.45 17.57l8.7 160.62c.51 10.18-8.22 18.84-19.53 19.32-11.32.48-20.94-7.4-21.46-17.57l-8.69-160.63zm201.7-1.74c.51-10.17 10.14-18.06 21.45-17.57 11.32.48 20.04 9.14 19.53 19.31l-8.66 160.63c-.52 10.17-10.14 18.05-21.46 17.57-11.31-.48-20.04-9.14-19.53-19.32l8.67-160.62zm-102.94.87c0-10.23 9.23-18.53 20.58-18.53 11.34 0 20.58 8.3 20.58 18.53v160.63c0 10.23-9.24 18.53-20.58 18.53-11.35 0-20.58-8.3-20.58-18.53V245.66z" />
+        </svg>
+      </div>
+      <p id="header">
+        You are about to delete your SpeechScribe account
+      </p>
+      <p id="bodyText">
+        By continuing, you will schedule your account for permanent deletion from our database, resulting in the loss of <code>critical services, including: <span style="font-weight: 580;" class="highlight">Authentication, Realtime Database, Storage, and Firebase Firestore</span></code>. This process may take several days to review before permanent deletion.
+      </p>
+      <div id="deleteButton">
+        <button id="cancelButton">cancel</button>
+        <button id="scheduleDelete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <section id="editTab">
+    <i class="fas fa-times"></i>
+    <div>
+      <input id="inputId" type="text" placeholder="type here...">
+      <button id="saveFileNameButton">Save</button>
+    </div>
+  </section>
+
+  <script type="module" src="/JAVASCRIPT/profile.js">
+  </script>
+  <script>
+    function showmenu() {
+      document.querySelector(".profileButton").classList.toggle("show");
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</body>
+
+</html>
