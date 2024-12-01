@@ -232,6 +232,7 @@ nav h2 {
 
 .menuImg img {
     width: 20%;
+    border-radius: 50%;
     margin-left: 0.5rem;
 }
 
@@ -698,6 +699,7 @@ li div {
 
 #spinnerBackground img {
     width: 5rem;
+    border-radius: 50%;
     animation: width 0.4s ease-in-out infinite;
 }
 

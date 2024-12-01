@@ -11,25 +11,11 @@ import {
   ref as databaseRef,
   get,
   set
-} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
-import {
-  getStorage,
-  ref as storageRef,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-  getMetadata,
-  listAll
-} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
-import {
-  collection,
-  getFirestore,
-  getDoc,
-  deleteDoc,
-  doc
-} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+}
+  from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
 
-// Firebase configuration
+import { getFirestore, getDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyApeufdnAhQCnsYljYchPjrh8W8Wf_YOtk",
   authDomain: "speechscribeapp.firebaseapp.com",
@@ -42,13 +28,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const storage = getStorage(app);
 const db = getDatabase(app);
 const firestoreDb = getFirestore(app);
 
 const alertContainer = document.querySelector(".alertContainer"),
-closeAlert = document.getElementById("closeAlert"),
-alertText = document.getElementById("alertText");
+  closeAlert = document.getElementById("closeAlert"),
+  alertText = document.getElementById("alertText");
 
 function customAlert(message) {
   alertText.innerText = message;
@@ -132,16 +117,14 @@ async function retrieveSecretKey(uid) {
     return null;
   }
 }
-
-// Select elements for editing
 const editTab = document.getElementById("editTab");
 const inputField = document.getElementById("inputId");
 const saveButton = document.getElementById("saveFileNameButton");
 
 function openEditTab(field, uid, secretKey) {
   editTab.style.display = "grid";
+  inputField.value = ''
   inputField.placeholder = `Enter new ${field}...`;
-
   saveButton.onclick = async () => {
     const newValue = inputField.value.trim();
     if (newValue) {
@@ -160,7 +143,6 @@ function openEditTab(field, uid, secretKey) {
   };
 }
 
-// Listen for auth state changes
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     const sessionId = await retrieveSessionId(user.uid);
@@ -179,14 +161,12 @@ onAuthStateChanged(auth, async (user) => {
           document.querySelector(".userImage").style.backgroundImage = `url(${decryptedImage})`;
           document.getElementById('profilePhoto').style.display = "none";
         }
-
         const userImageDiv = document.querySelector(".userImage");
         userImageDiv.style.cursor = 'pointer';
         userImageDiv.addEventListener("click", () => {
           const fileInput = document.createElement("input");
           fileInput.type = "file";
           fileInput.accept = "image/*";
-
           fileInput.addEventListener("change", async (event) => {
             const file = event.target.files[0];
             if (file) {
@@ -205,25 +185,20 @@ onAuthStateChanged(auth, async (user) => {
               reader.readAsDataURL(file);
             }
           });
-
           fileInput.click();
         });
-
-        // Decrypt and display user details
-        const decryptedBio = userDetails.bio ? decryptData(userDetails.bio, secretKey): "Tap to edit";
-        const decryptedAge = userDetails.age ? decryptData(userDetails.age, secretKey): "Tap to edit";
-        const decryptedAddress = userDetails.address ? decryptData(userDetails.address, secretKey): "Tap to edit";
-        const decryptedEmail = userDetails.email ? decryptData(userDetails.email, secretKey): "Tap to edit";
-        const decryptedTel = userDetails.tel ? decryptData(userDetails.tel, secretKey): "Tap to edit";
-        const decryptedUsername = userDetails.username ? decryptData(userDetails.username, secretKey): "Tap to edit";
-
+        const decryptedBio = userDetails.bio ? decryptData(userDetails.bio, secretKey) : "Tap to edit";
+        const decryptedAge = userDetails.age ? decryptData(userDetails.age, secretKey) : "Tap to edit";
+        const decryptedAddress = userDetails.address ? decryptData(userDetails.address, secretKey) : "Tap to edit";
+        const decryptedEmail = userDetails.email ? decryptData(userDetails.email, secretKey) : "Tap to edit";
+        const decryptedTel = userDetails.tel ? decryptData(userDetails.tel, secretKey) : "Tap to edit";
+        const decryptedUsername = userDetails.username ? decryptData(userDetails.username, secretKey) : "Tap to edit";
         document.getElementById("bio").textContent = decryptedBio;
         document.getElementById("age").textContent = decryptedAge;
         document.getElementById("address").textContent = decryptedAddress;
         document.getElementById("email").textContent = decryptedEmail;
         document.getElementById("telephone").textContent = decryptedTel;
         document.getElementById("username").textContent = decryptedUsername;
-
         document.getElementById("bio").addEventListener("click", () => openEditTab("bio",
           user.uid,
           secretKey));
@@ -243,69 +218,6 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// Close button to hide edit tab
 document.querySelector("#editTab .fa-times").addEventListener("click", () => {
   editTab.style.display = "none";
-});
-
-document.getElementById("logOutButton").addEventListener("click", async function() {
-  const user = auth.currentUser;
-  if (!user) {
-    customAlert("No authenticated user found.");
-    return; // Stop execution if no authenticated user
-  }
-
-  async function logout() {
-    try {
-      const sessionRef = doc(firestoreDb, "User_Sessions", user.uid);
-      await deleteDoc(sessionRef);
-
-      // Clear all cookies
-      document.cookie.split(";").forEach(cookie => {
-        const [name] = cookie.split("=");
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-      });
-
-      sessionStorage.removeItem("sessionUserId");
-
-      await auth.signOut();
-
-      // Redirect to login page only if everything succeeds
-      window.location.href = "/login/login.html";
-    } catch (error) {
-      customAlert("Error logging out: " + error.message);
-      return; // Stop further execution if error occurs
-    }
-  }
-
-  // Proceed with logout if user is authenticated
-  await logout();
-});
-
-document.getElementById("deleteAccount").addEventListener("click", function() {
-  document.getElementById("deleteContainerCover").classList.toggle("deleteShow")
-});
-document.getElementById("cancelButton").addEventListener("click", function() {
-  document.getElementById("deleteContainerCover").classList.remove("deleteShow")
-});
-document.getElementById("scheduleDelete").addEventListener("click", async () => {
-    try {
-        const user = firebase.auth().currentUser;
-        
-        if (user) {
-            const deletionDate = Date.now() + 7 * 24 * 60 * 60 * 1000; // Set to 7 days from now
-
-            await firebase.firestore().collection("users").doc(user.uid).update({
-                deletionRequested: true,
-                deletionDate: deletionDate
-            });
-
-            alert("Your account is scheduled for deletion.");
-        } else {
-            alert("No user is logged in.");
-        }
-    } catch (error) {
-        console.error("Error scheduling account deletion:", error);
-        alert("Failed to schedule deletion. Please try again.");
-    }
 });

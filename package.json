@@ -5,9 +5,9 @@
   "main": "main.js",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "crypto-js": "^4.2.0"
+    "crypto-js": "^4.2.0",
+    "nodemailer": "^6.9.16"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

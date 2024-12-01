@@ -196,6 +196,7 @@ header {
 
 #spinnerBackground img {
   width: 5rem;
+  border-radius: 50%;
   animation: width .4s ease-in-out infinite;
 }
 
