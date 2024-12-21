@@ -1,119 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <!-- Google Tag Manager -->
-    <script>
-        (function (w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({
-                "gtm.start": new Date().getTime(),
-                event: "gtm.js"
-            });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != "dataLayer" ? "&l=" + l : "";
-            j.async = true;
-            j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, "script", "dataLayer", "GTM-PJRZD4KN");
-    </script>
-    <!-- End Google Tag Manager -->
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-239G8L2PGX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag("js", new Date());
-
-        gtag("config", "G-239G8L2PGX");
-    </script>
+  <head>
     <!-- Character Set & Viewport -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Author & SEO Metadata -->
     <meta name="author" content="Legitcreations" />
-    <meta name="description"
-        content="Manage settings for the SpeechScribe voice recording and transcription app. Provide feedback, learn about the app features, and access support for optimal use." />
-    <meta name="keywords"
-        content="SpeechScribe, voice recording, transcription, feedback, app settings, user settings, AI transcription, support, Legitcreations, manage settings, user experience" />
+    <meta
+      name="description"
+      content="Manage settings for the SpeechScribe voice recording and transcription app. Provide feedback, learn about the app features, and access support for optimal use."
+    />
+    <meta
+      name="keywords"
+      content="SpeechScribe, voice recording, transcription, feedback, app settings, user settings, AI transcription, support, Legitcreations, manage settings, user experience"
+    />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://speechscribeapp.web.app/HTML/settings.html" />
+    <link
+      rel="canonical"
+      href="https://speechscribeapp.web.app/HTML/settings.html"
+    />
 
     <!-- Page Title -->
     <title>Settings | SpeechScribe</title>
 
     <!-- Open Graph Metadata for Social Sharing -->
     <meta property="og:title" content="Settings | SpeechScribe" />
-    <meta property="og:description"
-        content="Manage settings, provide feedback, and learn about the SpeechScribe voice recording app." />
-    <meta property="og:image" content="https://speechscribeapp.web.app/img/logo.jpg" />
-    <meta property="og:url" content="https://speechscribeapp.web.app/HTML/settings.html" />
+    <meta
+      property="og:description"
+      content="Manage settings, provide feedback, and learn about the SpeechScribe voice recording app."
+    />
+    <meta
+      property="og:image"
+      content="https://speechscribeapp.web.app/img/logo.jpg"
+    />
+    <meta
+      property="og:url"
+      content="https://speechscribeapp.web.app/HTML/settings.html"
+    />
     <meta property="og:type" content="website" />
 
     <!-- Twitter Card Metadata -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Settings | SpeechScribe" />
-    <meta name="twitter:description" content="Manage your SpeechScribe settings and give feedback." />
-    <meta name="twitter:image" content="https://speechscribeapp.web.app/img/logo.jpg" />
+    <meta
+      name="twitter:description"
+      content="Manage your SpeechScribe settings and give feedback."
+    />
+    <meta
+      name="twitter:image"
+      content="https://speechscribeapp.web.app/img/logo.jpg"
+    />
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/CSS/settings.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1834765174190718"
-        crossorigin="anonymous"></script>
-    <meta name="google-adsense-account" content="ca-pub-1834765174190718" />
-    <!-- ads_1 -->
-    <ins class="adsbygoogle" style="display: block" data-ad-client="ca-pub-1834765174190718" data-ad-slot="1877946695"
-        data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+  </head>
 
-<body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJRZD4KN" height="0" width="0"
-            style="display: none; visibility: hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+  <body>
     <header class="settingsHeader">
-        <p class="headerText">Settings</p>
-        <i onclick="previous()" class="fas fa-arrow-left"></i>
+      <p class="headerText">Settings</p>
+      <i onclick="previous()" class="fas fa-arrow-left"></i>
     </header>
     <div class="alertContainer">
-        <svg id="closeAlert" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
-            <path fill="white"
-                d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V7h16l.001 12H4z" />
-            <path fill="white"
-                d="m15.707 10.707-1.414-1.414L12 11.586 9.707 9.293l-1.414 1.414L10.586 13l-2.293 2.293 1.414 1.414L12 14.414l2.293 2.293 1.414-1.414L13.414 13z" />
-        </svg>
-        <div class="alertBox">
-            <img src="/img/alert.png" alt="alertImg" />
-            <p id="alerHeader">ALERT</p>
-            <p id="alertText" style="color: white; font-weight: 400; font-size: 14px"></p>
-        </div>
+      <svg
+        id="closeAlert"
+        xmlns="http://www.w3.org/2000/svg"
+        width="26"
+        height="26"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="white"
+          d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V7h16l.001 12H4z"
+        />
+        <path
+          fill="white"
+          d="m15.707 10.707-1.414-1.414L12 11.586 9.707 9.293l-1.414 1.414L10.586 13l-2.293 2.293 1.414 1.414L12 14.414l2.293 2.293 1.414-1.414L13.414 13z"
+        />
+      </svg>
+      <div class="alertBox">
+        <img src="/img/alert.png" alt="alertImg" />
+        <p id="alerHeader">ALERT</p>
+        <p
+          id="alertText"
+          style="color: white; font-weight: 400; font-size: 14px"
+        ></p>
+      </div>
     </div>
     <section class="settingsTab">
-        <div>
-            <a href="https://speechscribe-feedback.onrender.com/">Feedback</a>
-            <a href="/HTML/about.html">
-                <p>About</p>
-                <i class="fa fa-external-link"></i>
-            </a>
-        </div>
+      <div>
+        <a href="https://speechscribe-feedback.onrender.com/">Feedback</a>
+        <a href="/HTML/about.html">
+          <p>About</p>
+          <i class="fa fa-external-link"></i>
+        </a>
+      </div>
     </section>
     <section class="copyright">
-        <div>
-            <p>from</p>
-            <p>Legitcreations</p>
-        </div>
+      <div>
+        <p>from</p>
+        <p>Legitcreations</p>
+      </div>
     </section>
-</body>
-<script src="/JAVASCRIPT/settings.js"></script>
-
+  </body>
+  <script src="/JAVASCRIPT/settings.js"></script>
 </html>

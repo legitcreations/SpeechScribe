@@ -1,79 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/CSS/vov.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/CSS/vov.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
     <title>studio</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <header>
-        <h2>SpeechScribe Studio</h2>
-        <i onclick="openDialogue()" class="fas fa-plus"></i>
+      <h2>SpeechScribe Studio</h2>
+      <i onclick="openDialogue()" class="fas fa-plus"></i>
     </header>
     <div id="voiceDialogue">
-        <div id="startNewSession">
-            <i class="fas fa-plus"></i>
-            <p>Start New Session</p>
-        </div>
-        <div onclick="synthesizeVoice()" id="test">
-            <i class="fas fa-play"></i>
-            <p>Test Sample</p>
-        </div>
+      <div id="startNewSession">
+        <i class="fas fa-plus"></i>
+        <p>Start New Session</p>
+      </div>
+      <div onclick="synthesizeVoice()" id="test">
+        <i class="fas fa-play"></i>
+        <p>Test Sample</p>
+      </div>
     </div>
     <div class="ttsSampleContainer">
-        <div id="testSounds">
-            <div id="neutral_male" style="background-image: url('/img/male.png');">
-                <p>Neutral male</p>
-            </div>
-            <div id="child_girl" style="background-image: url(/img/girl.png);">
-                <p>Little girl</p>
-            </div>
-            <div id="elderly_man" style="background-image: url('/img/oldman.png');">
-                <p>Old man</p>
-            </div>
-            <div id="robot_ai" style="background-image: url(/img/robot.png);">
-                <p>Robot AI</p>
-            </div>
-            <div id="robot_mechanical" style="background-image: url('/img/robot2.png');">
-                <p>Robot mechanical</p>
-            </div>
-            <div id="villian_deep" style="background-image: url(/img/villian_deep.png);">
-                <p>Villain deep</p>
-            </div>
-            <div id="villian_sinister" style="background-image: url(/img/villian_senester.png);">
-                <p>Villain sinister</p>
-            </div>
-            <div id="fairy" style="background-image: url(/img/fairy\ soft.png);">
-                <p>Fairy</p>
-            </div>
-            <div id="alien_high_pitch" style="background-image: url(/img/alien.png);">
-                <p>Alien high pitch</p>
-            </div>
-            <div id="alien_echoey" style="background-image: url(/img/alien_echo.png);">
-                <p>Alien Echo</p>
-            </div>
-            <div id="chinese_madarin" style="background-image: url(/img/chineseman.png);">
-                <p>Chinese</p>
-            </div>
-            <div id="monster_deep" style="background-image: url(/img/monster.png);">
-                <p>Monster</p>
-            </div>
-            <div id="american_accent_casual" style="background-image: url(/img/american.png);">
-                <p>American accent</p>
-            </div>
-            <div id="british_accent_formal" style="background-image: url(/img/ukman.png);">
-                <p>British accent</p>
-            </div>
-            <div id="spanish_accent" style="background-image: url(/img/spanish.png);">
-                <p>Spanish accent</p>
-            </div>
+      <div id="testSounds">
+        <div id="neutral_male" style="background-image: url('/img/male.png')">
+          <p>Neutral male</p>
         </div>
+        <div id="child_girl" style="background-image: url(/img/girl.png)">
+          <p>Little girl</p>
+        </div>
+        <div id="elderly_man" style="background-image: url('/img/oldman.png')">
+          <p>Old man</p>
+        </div>
+        <div id="robot_ai" style="background-image: url(/img/robot.png)">
+          <p>Robot AI</p>
+        </div>
+        <div
+          id="robot_mechanical"
+          style="background-image: url('/img/robot2.png')"
+        >
+          <p>Robot mechanical</p>
+        </div>
+        <div
+          id="villian_deep"
+          style="background-image: url(/img/villian_deep.png)"
+        >
+          <p>Villain deep</p>
+        </div>
+        <div
+          id="villian_sinister"
+          style="background-image: url(/img/villian_senester.png)"
+        >
+          <p>Villain sinister</p>
+        </div>
+        <div id="fairy" style="background-image: url(/img/fairy\ soft.png)">
+          <p>Fairy</p>
+        </div>
+        <div
+          id="alien_high_pitch"
+          style="background-image: url(/img/alien.png)"
+        >
+          <p>Alien high pitch</p>
+        </div>
+        <div
+          id="alien_echoey"
+          style="background-image: url(/img/alien_echo.png)"
+        >
+          <p>Alien Echo</p>
+        </div>
+        <div
+          id="chinese_madarin"
+          style="background-image: url(/img/chineseman.png)"
+        >
+          <p>Chinese</p>
+        </div>
+        <div id="monster_deep" style="background-image: url(/img/monster.png)">
+          <p>Monster</p>
+        </div>
+        <div
+          id="american_accent_casual"
+          style="background-image: url(/img/american.png)"
+        >
+          <p>American accent</p>
+        </div>
+        <div
+          id="british_accent_formal"
+          style="background-image: url(/img/ukman.png)"
+        >
+          <p>British accent</p>
+        </div>
+        <div
+          id="spanish_accent"
+          style="background-image: url(/img/spanish.png)"
+        >
+          <p>Spanish accent</p>
+        </div>
+      </div>
     </div>
     <script src="/JAVASCRIPT/vox.js"></script>
-</body>
-
+  </body>
 </html>

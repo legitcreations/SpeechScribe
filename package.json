@@ -1,11 +1,12 @@
 {
-  "name": "SpeechScribe",
-  "version": "1.0.0",
+  "name": "speechscribe",
+  "version": "1.10.0",
   "description": "SpeechScribe is a voice recording application that allows users to record audio, transcribe their voice, and choose between human or AI-powered translation services. It includes features for pausing, resuming, and stopping recordings, visualizing audio frequency bars, and saving recordings locally",
   "main": "main.js",
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "crypto-js": "^4.2.0",
+    "express": "^4.21.2",
     "nodemailer": "^6.9.16"
   },
   "scripts": {

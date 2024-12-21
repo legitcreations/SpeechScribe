@@ -1,72 +1,77 @@
+// Notifications array to track all notifications
+const notifications = [];
 
-    from Flask import Flask, request
-import smtplib
-from email.mime.text import MIMEText
-import os
+// Get DOM elements
+const notificationsCount = document.getElementById("notificationsCount");
+const notificationToggleMessage = document.querySelector("#notificationToggleMessage");
 
-app = Flask(__name__)
+// Function to send a notification
+function sendNotification(sender, message, link) {
+  // Add the new notification to the array
+  notifications.push({ sender, message, link, read: false });
 
-@app.route('/')
-def feedback_form():
-    return '''
-    <!DOCTYPE html>
-    <html>
-    <body>
-      <form id="feedbackForm" action="/submit-feedback" method="POST" accept-charset="utf-8">
-        <div>
-          <strong>Feedback</strong>
-          <div>
-            <input type="radio" name="feedback" id="VSBQuality" value="VSBQuality" />
-            <label for="VSBQuality">VSB Quality</label>
-            <input type="radio" name="feedback" id="userInterface" value="userInterface" />
-            <label for="userInterface">User Interface</label>
-            <input type="radio" name="feedback" id="userExperience" value="userExperience" />
-            <label for="userExperience">User Experience</label>
-          </div>
-          <div>
-            <textarea placeholder="Tell us your thoughts" name="textArea" maxlength="1000"></textarea>
-          </div>
-          <div>
-            <input placeholder="Email address" type="email" name="email" />
-          </div>
-        </div>
-        <button type="submit">Send</button>
-      </form>
-    </body>
-    </html>
-    '''
+  // Create a notification block
+  const notificationMessage = document.createElement("div");
+  notificationMessage.className = "notificationMessage";
+  notificationMessage.setAttribute("role", "alert");
+  notificationMessage.style.display = "flex";
+  notificationMessage.style.justifyContent = "space-between";
 
-@app.route('/submit-feedback', methods=['POST'])
-def submit_feedback():
-    feedback_type = request.form.get('feedback')
-    feedback_text = request.form.get('textArea')
-    email_address = request.form.get('email')
+  notificationMessage.innerHTML = `
+    <div class="details">
+      <p class="senderDetails">${sender}</p>
+      <p class="message">${message}</p>
+      ${
+        link
+          ? `<a class="notificationLink" href="${link}">
+              Our Services
+            </a>`
+          : ""
+      }
+    </div>
+    <div class="notificationColor"></div>
+  `;
 
-    sender_email = "stathamruss.co.uk@gmail.com"
-    sender_password = "kvrm orbd zydq nwsu"  # Use an environment variable for security
-    recipient_email = "stathamruss.co.uk@gmail.com"  # The company email receiving feedback
+  // Add click event to mark notification as read
+  notificationMessage.addEventListener("click", () => markAsRead(notificationMessage));
 
-    subject = f"Feedback: {feedback_type}"
-    body = f"""
-    Feedback Type: {feedback_type}
-    Feedback: {feedback_text}
-    Sender Email: {email_address}
-    """
+  // Append the new notification
+  notificationToggleMessage.appendChild(notificationMessage);
 
-    try:
-        msg = MIMEText(body)
-        msg['Subject'] = subject
-        msg['From'] = sender_email
-        msg['To'] = recipient_email
+  // Update the notification count
+  updateNotificationCount();
+  notificationsCount.style.display = "flex";
+}
 
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
-            server.starttls()
-            server.login(sender_email, sender_password)
-            server.sendmail(sender_email, recipient_email, msg.as_string())
+// Function to mark a notification as read
+function markAsRead(notificationElement) {
+  // Hide the notificationColor indicator
+  const notificationColor = notificationElement.querySelector(".notificationColor");
+  if (notificationColor) notificationColor.style.display = "none";
 
-        return "Feedback sent successfully!"
-    except Exception as e:
-        return f"Failed to send feedback: {e}"
+  // Mark the notification as read
+  const index = Array.from(notificationToggleMessage.children).indexOf(notificationElement);
+  if (index !== -1 && !notifications[index].read) {
+    notifications[index].read = true;
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    // Decrement the notification count
+    updateNotificationCount();
+  }
+}
+
+// Function to update the notification count dynamically
+function updateNotificationCount() {
+  const insightCount = document.querySelector("#insightCount");
+  const unreadCount = notifications.filter((notification) => !notification.read).length;
+
+  // Update count badges
+  notificationsCount.textContent = unreadCount;
+  insightCount.textContent = unreadCount;
+
+  // Hide badge if no unread notifications
+  if (unreadCount === 0) {
+    notificationsCount.style.display = "none";
+  } else {
+    notificationsCount.style.display = "flex"; // Ensure badge is visible if unread notifications exist
+  }
+}

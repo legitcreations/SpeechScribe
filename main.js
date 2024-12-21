@@ -45,24 +45,24 @@ const storage = getStorage(app);
 const database = getDatabase(app);
 
 const alertContainer = document.querySelector(".alertContainer"),
-closeAlert = document.getElementById("closeAlert"),
-alertText = document.getElementById("alertText"),
-downloadContainer = document.querySelector(".downloadContainer"),
-startButton = document.getElementById('startRecording'),
-pauseButton = document.getElementById('pauseRecording'),
-stopButton = document.getElementById('stopRecording'),
-recordTimeCounter = document.querySelector('.recordTimeCounter'),
-svgPath1 = document.getElementById("svgPath1"),
-svgPath2 = document.getElementById("svgPath2"),
-buttonBorder2 = document.querySelector(".buttonBorder2"),
-toggleMenuButton = document.getElementById("toggleMenuButton"),
-saveRecordingButton = document.getElementById("saveRecordingButton"),
-cancelRecordingButton = document.getElementById("cancelRecordingButton"),
-menuContainer = document.querySelector(".menuContainer"),
-menuOverlay = document.getElementById("menuOverlay"),
-canvas = document.getElementById("visualizerCanvas"),
-profilePage = document.getElementById("profilePage"),
-canvasCtx = canvas.getContext("2d");
+  closeAlert = document.getElementById("closeAlert"),
+  alertText = document.getElementById("alertText"),
+  downloadContainer = document.querySelector(".downloadContainer"),
+  startButton = document.getElementById('startRecording'),
+  pauseButton = document.getElementById('pauseRecording'),
+  stopButton = document.getElementById('stopRecording'),
+  recordTimeCounter = document.querySelector('.recordTimeCounter'),
+  svgPath1 = document.getElementById("svgPath1"),
+  svgPath2 = document.getElementById("svgPath2"),
+  buttonBorder2 = document.querySelector(".buttonBorder2"),
+  toggleMenuButton = document.getElementById("toggleMenuButton"),
+  saveRecordingButton = document.getElementById("saveRecordingButton"),
+  cancelRecordingButton = document.getElementById("cancelRecordingButton"),
+  menuContainer = document.querySelector(".menuContainer"),
+  menuOverlay = document.getElementById("menuOverlay"),
+  canvas = document.getElementById("visualizerCanvas"),
+  profilePage = document.getElementById("profilePage"),
+  canvasCtx = canvas.getContext("2d");
 closeAlert.addEventListener("click", () => {
   alertContainer.style.display = "none";
 });
@@ -80,142 +80,142 @@ window.addEventListener("DOMContentLoaded", () => {
   })
 
   async function countUserRecordings() {
-  const thisUser = auth.currentUser;
-  const recordingsRef = collection(firestoreDb, 'Users_Recordings', thisUser.uid, 'recordings');
+    const thisUser = auth.currentUser;
+    const recordingsRef = collection(firestoreDb, 'Users_Recordings', thisUser.uid, 'recordings');
 
-  try {
-    const querySnapshot = await getDocs(recordingsRef);
-    const count = querySnapshot.size;
+    try {
+      const querySnapshot = await getDocs(recordingsRef);
+      const count = querySnapshot.size;
 
-    const recordedFilesCountElement = document.getElementById("recordedFilesCount");
-    if (count > 0) {
-      recordedFilesCountElement.style.display = "flex";
-      recordedFilesCountElement.textContent = count;
-    } else {
-      recordedFilesCountElement.style.display = "none";
+      const recordedFilesCountElement = document.getElementById("recordedFilesCount");
+      if (count > 0) {
+        recordedFilesCountElement.style.display = "flex";
+        recordedFilesCountElement.textContent = count;
+      } else {
+        recordedFilesCountElement.style.display = "none";
+      }
+
+      return count;
+    } catch (error) {
+      customAlert(error.message);
+      return 0;
     }
-
-    return count;
-  } catch (error) {
-    customAlert(error.message);
-    return 0;
   }
-}
 
   async function retrieveSessionId(userId) {
-  const sessionRef = doc(firestoreDb, "User_Sessions", userId);
-  try {
-    const sessionDoc = await getDoc(sessionRef);
-    if (sessionDoc.exists()) {
-      return sessionDoc.data().sessionId;
-    } else {
-      customAlert("No session ID found for user. Redirecting to login to create a new session.");
-      window.location.href = "/login/login.html";
+    const sessionRef = doc(firestoreDb, "User_Sessions", userId);
+    try {
+      const sessionDoc = await getDoc(sessionRef);
+      if (sessionDoc.exists()) {
+        return sessionDoc.data().sessionId;
+      } else {
+        customAlert("No session ID found for user. Redirecting to login to create a new session.");
+        window.location.href = "/login/login.html";
+        return null;
+      }
+    } catch (error) {
+      customAlert(`Error retrieving session ID: ${error.message || error}`);
       return null;
     }
-  } catch (error) {
-    customAlert(`Error retrieving session ID: ${error.message || error}`);
-    return null;
   }
-}
 
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    // Authenticated user flow
-    try {
-      const sessionId = await retrieveSessionId(user.uid);
-      if (!sessionId) {
-        return;
-      }
-      countUserRecordings();
-
-      saveRecordingButton.addEventListener("click", async () => {
-        if (!currentBlob) {
-          customAlert("No recording found to save.");
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      // Authenticated user flow
+      try {
+        const sessionId = await retrieveSessionId(user.uid);
+        if (!sessionId) {
           return;
         }
+        countUserRecordings();
 
-        const recordingName = recordingNameInput.value.trim() || `recording-${Date.now()}`;
-        document.getElementById("spinnerBackground").style.display = "grid";
+        saveRecordingButton.addEventListener("click", async () => {
+          if (!currentBlob) {
+            customAlert("No recording found to save.");
+            return;
+          }
 
-        try {
-          const recordingRef = ref(storage, `Users_Recordings/${user.uid}/${recordingName}.mp3`);
-          const snapshot = await uploadBytes(recordingRef, currentBlob);
-          const downloadURL = await getDownloadURL(snapshot.ref);
+          const recordingName = recordingNameInput.value.trim() || `recording-${Date.now()}`;
+          document.getElementById("spinnerBackground").style.display = "grid";
 
-          await addDoc(collection(firestoreDb, "Users_Recordings", user.uid, "recordings"), {
-            name: recordingName,
-            url: downloadURL,
-            timestamp: serverTimestamp(),
-          });
+          try {
+            const recordingRef = ref(storage, `Users_Recordings/${user.uid}/${recordingName}.mp3`);
+            const snapshot = await uploadBytes(recordingRef, currentBlob);
+            const downloadURL = await getDownloadURL(snapshot.ref);
 
-          customAlert(`File saved as: ${recordingName}.mp3`);
-          countUserRecordings();
+            await addDoc(collection(firestoreDb, "Users_Recordings", user.uid, "recordings"), {
+              name: recordingName,
+              url: downloadURL,
+              timestamp: serverTimestamp(),
+            });
 
+            customAlert(`File saved as: ${recordingName}.mp3`);
+            countUserRecordings();
+
+            downloadContainer.style.top = "-100%";
+            downloadContainer.style.height = "0%";
+          } catch (error) {
+            console.error("Error saving recording:", error);
+            customAlert(`Error saving file: ${error.message}`);
+          } finally {
+            document.getElementById("spinnerBackground").style.display = "none";
+          }
+        });
+
+        cancelRecordingButton.addEventListener("click", () => {
           downloadContainer.style.top = "-100%";
           downloadContainer.style.height = "0%";
-        } catch (error) {
-          console.error("Error saving recording:", error);
-          customAlert(`Error saving file: ${error.message}`);
-        } finally {
-          document.getElementById("spinnerBackground").style.display = "none";
-        }
-      });
-
-      cancelRecordingButton.addEventListener("click", () => {
-        downloadContainer.style.top = "-100%";
-        downloadContainer.style.height = "0%";
-        recordingNameInput.value = '';
-        customAlert("Recording was canceled.");
-      });
-    } catch (error) {
-      console.error("Error in onAuthStateChanged:", error);
-      customAlert("An unexpected error occurred. Please try again.");
-      setTimeout(() => {
-        window.location.href = "/login/login.html";
-      }, 3000);
-    }
-  } else {
-    // Non-authenticated user flow
-    const sessionIdCookie = document.cookie.split('; ').find(row => row.startsWith('sessionId='));
-
-    if (sessionIdCookie) {
-      const sessionId = sessionIdCookie.split('=')[1];
-      try {
-        const userSessionDoc = await getDoc(doc(firestoreDb, "User_Sessions", sessionId));
-        if (userSessionDoc.exists()) {
-          customAlert("Session found but user not authenticated. Redirecting to login.");
-          setTimeout(() => {
-            window.location.href = "/login/login.html";
-          }, 3000);
-        } else {
-          customAlert("User session not found. Redirecting to signup.");
-          setTimeout(() => {
-            window.location.href = "/join/signup.html";
-          }, 3000);
-        }
+          recordingNameInput.value = '';
+          customAlert("Recording was canceled.");
+        });
       } catch (error) {
-        console.error("Error in session check:", error);
-        customAlert("Error checking session. Please try again.");
+        console.error("Error in onAuthStateChanged:", error);
+        customAlert("An unexpected error occurred. Please try again.");
         setTimeout(() => {
           window.location.href = "/login/login.html";
         }, 3000);
       }
     } else {
-      customAlert("No active session found. Redirecting to signup.");
-      setTimeout(() => {
-        window.location.href = "/join/signup.html";
-      }, 3000);
+      // Non-authenticated user flow
+      const sessionIdCookie = document.cookie.split('; ').find(row => row.startsWith('sessionId='));
+
+      if (sessionIdCookie) {
+        const sessionId = sessionIdCookie.split('=')[1];
+        try {
+          const userSessionDoc = await getDoc(doc(firestoreDb, "User_Sessions", sessionId));
+          if (userSessionDoc.exists()) {
+            customAlert("Session found but user not authenticated. Redirecting to login.");
+            setTimeout(() => {
+              window.location.href = "/login/login.html";
+            }, 3000);
+          } else {
+            customAlert("User session not found. Redirecting to signup.");
+            setTimeout(() => {
+              window.location.href = "/join/signup.html";
+            }, 3000);
+          }
+        } catch (error) {
+          console.error("Error in session check:", error);
+          customAlert("Error checking session. Please try again.");
+          setTimeout(() => {
+            window.location.href = "/login/login.html";
+          }, 3000);
+        }
+      } else {
+        customAlert("No active session found. Redirecting to signup.");
+        setTimeout(() => {
+          window.location.href = "/join/signup.html";
+        }, 3000);
+      }
     }
-  }
-});
-  
+  });
+
   let mediaRecorder, isRecording = false,
-  isPaused = false,
-  timerInterval;
+    isPaused = false,
+    timerInterval;
   let seconds = 0,
-  minutes = 0,
-  hours = 0;
+    minutes = 0,
+    hours = 0;
   let recordings = [];
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!('MediaRecorder' in window)) {
@@ -234,7 +234,7 @@ onAuthStateChanged(auth, async (user) => {
   navigator.mediaDevices.getUserMedia({
     audio: true
   })
-  .catch(err => customAlert("Error accessing microphone: " + err.message));
+    .catch(err => customAlert("Error accessing microphone: " + err.message));
   toggleMenuButton.addEventListener("click", () => {
     menuContainer.classList.toggle("menuContainerShow");
     menuOverlay.classList.toggle("menuOverlayShow");
@@ -263,8 +263,8 @@ onAuthStateChanged(auth, async (user) => {
   const updateTimerDisplay = () => {
     recordTimeCounter.textContent = `${hours.toString().padStart(2,
       '0')} : ${minutes.toString().padStart(2,
-      '0')} : ${seconds.toString().padStart(2,
-      '0')}`;
+        '0')} : ${seconds.toString().padStart(2,
+          '0')}`;
   };
   let currentBlob = null;
 
@@ -272,7 +272,7 @@ onAuthStateChanged(auth, async (user) => {
     customAlert(message);
   }
   startRecording.addEventListener('click',
-    function() {
+    function () {
       function startRecording() {
         navigator.mediaDevices.getUserMedia({
           audio: {
@@ -444,7 +444,7 @@ onAuthStateChanged(auth, async (user) => {
   canvas.height = 190;
 
   function drawFrequencyBars(stream) {
-    const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const analyser = audioCtx.createAnalyser();
     const source = audioCtx.createMediaStreamSource(stream);
     source.connect(analyser);
@@ -493,3 +493,135 @@ document.getElementById("notificationsContainer").onclick = function () {
 document.getElementById("closeNotification").onclick = function () {
   document.querySelector(".notificationCover").style.display = "none"
 }
+
+// Notifications array to track all notifications
+let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+
+// Get DOM elements
+const notificationsCount = document.getElementById("notificationsCount");
+const notificationToggleMessage = document.querySelector("#notificationToggleMessage");
+
+// Function to load notifications on page refresh
+function loadNotifications() {
+  notificationToggleMessage.innerHTML = ""; // Clear previous content
+  notifications.forEach((notification, index) => {
+    createNotificationElement(notification, index);
+  });
+
+  // Update the notification count
+  updateNotificationCount();
+}
+
+// Function to send a new notification
+function sendNotification(sender, message, link) {
+  // Check if the notification already exists
+  const exists = notifications.some(
+    (n) => n.sender === sender && n.message === message && n.link === link
+  );
+
+  if (!exists) {
+    // Add the new notification to the array
+    const newNotification = { sender, message, link, read: false };
+    notifications.push(newNotification);
+
+    // Save to localStorage
+    saveNotifications();
+
+    // Create the notification element
+    createNotificationElement(newNotification, notifications.length - 1);
+
+    // Update the notification count
+    updateNotificationCount();
+  }
+}
+
+// Function to create a notification element
+function createNotificationElement(notification, index) {
+  const notificationMessage = document.createElement("div");
+  notificationMessage.className = "notificationMessage";
+  notificationMessage.style.display = "flex";
+  notificationMessage.style.justifyContent = "space-between";
+
+  notificationMessage.innerHTML = `
+    <div id="details">
+      <p id="senderDetails">${notification.sender}</p>
+      <p id="message">${notification.message}</p>
+      ${
+        notification.link
+          ? `<a style="text-decoration: underline; font-size: 12px; color: blue; font-style: italic;" href="${notification.link}">
+              Our Services
+            </a>`
+          : ""
+      }
+    </div>
+    <div id="notificationColor" style="background-color: ${
+      notification.read ? "transparent" : "#8697ca"
+    }; width: 15px; height: 15px; border-radius: 50%;"></div>
+  `;
+
+  // Add click event to mark notification as read
+  notificationMessage.addEventListener("click", () => markAsRead(index));
+
+  // Append the notification to the container
+  notificationToggleMessage.appendChild(notificationMessage);
+}
+
+// Function to mark a notification as read
+function markAsRead(index) {
+  const notificationElement = notificationToggleMessage.children[index];
+  const notificationColor = notificationElement.querySelector("#notificationColor");
+
+  // Hide the notification color indicator
+  if (notificationColor) notificationColor.style.backgroundColor = "transparent";
+
+  // Mark the notification as read
+  if (!notifications[index].read) {
+    notifications[index].read = true;
+
+    // Save the updated notifications to localStorage
+    saveNotifications();
+
+    // Update the notification count
+    updateNotificationCount();
+  }
+}
+
+// Function to update the notification count dynamically
+function updateNotificationCount() {
+  const insightCount = document.querySelector("#insightCount");
+  const unreadCount = notifications.filter((notification) => !notification.read).length;
+
+  // Update count badges
+  notificationsCount.textContent = unreadCount;
+  insightCount.textContent = unreadCount;
+
+  // Hide badge if no unread notifications
+  notificationsCount.style.display = unreadCount > 0 ? "flex" : "none";
+}
+
+// Function to save notifications to localStorage
+function saveNotifications() {
+  localStorage.setItem("notifications", JSON.stringify(notifications));
+}
+
+// Load notifications on page refresh
+loadNotifications();
+
+// Example notifications (for demonstration purposes)
+sendNotification(
+  "SpeechScribe",
+  "Our website is currently under development, but you’re welcome to explore and use the available features as we work to bring you the full experience. Thank you for being an early user!",
+  "/HTML/navigation/about_website.html"
+);
+
+sendNotification(
+  "Admin",
+  "We have added new features to enhance your experience. Check them out now!",
+  "/HTML/navigation/new_features.html"
+);
+
+sendNotification(
+  "Admin",
+  "eee have added new features to enhance your experience. Check them out now!",
+  "/HTML/navigation/new_features.html"
+);

@@ -26,6 +26,7 @@
     --dimBlue: #4f2fe8fc;
     --lightBlue: #7091e6;
     --darkBlue: #8697ca;
+    --headerBackground:#262736;
     --faintBlack: #6b6b6b;
     --pageBackgroundColor: #ede8f5;
     --paddingSmall: 10px;
@@ -45,7 +46,7 @@ header {
         -3px -3px 12px #ffffff,
         3px 3px 3px #0000001c;
     padding: 10px;
-    background: #262736;
+    background: var(--headerBackground);
 }
 
 .fa-bars-staggered {
@@ -243,8 +244,7 @@ nav h2 {
     display: grid;
     background: white;
     padding: 10px;
-    box-shadow: 2px 2px 10px rgba(245, 245, 245, 1);
-
+    box-shadow: 3px 3px 20px rgb(245, 245, 245);
     grid-row-gap: 1rem;
 }
 
@@ -309,22 +309,20 @@ li div {
 #notificationsCount {
     position: absolute;
     right: 1.5rem;
-    font-size: 12px;
-    font-weight: 500;
     color: var(--dimBlue);
-    padding: 5px 6px;
-    border-radius: 50%;
-    background: var(--pageBackgroundColor);
     display: none;
     justify-content: center;
     align-items: center;
     text-indent: 0;
+    background: var(--darkBlue);
+    font-size: 14px;
+    padding: 6px;
+    color: var(--headerBackground);
+    font-weight: 700;
+    border-radius: 10px;
 }
 #notificationsContainer{
     cursor: pointer;
-}
-#notificationsCount {
-    display: block;
 }
 
 .notificationCover {
@@ -332,6 +330,8 @@ li div {
     background: #0000001a;
     width: 100%;
     left: 0;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     top: 0;
     height: 100%;
     display: none;
@@ -341,29 +341,41 @@ li div {
 
 #notificationToggle {
     width: 75%;
-    background: white;
-    max-height: 15rem;
-    border-radius: var(--borderRadius);
-    display: flex;
+    background: var(--headerBackground);
+    border-radius: 20px;
+    display: block;
+    padding: 0px;
     flex-direction: column;
 }
+#notificationToggle *{
+    color: rgb(228, 228, 228);
 
+}
+#notificationToggleMessage{
+    display: grid!important;
+    gap: 2rem;
+    height:100%;
+    border-bottom: 0px!important;
+    max-height: 20rem;
+    overflow: scroll!important;
+}
 #notificationToggleHeader,
 #notificationToggleMessage,
 #notificationToggleSenderType {
     display: flex;
-    padding: var(--paddingSmall);
+    padding: var(--paddingBig);
     justify-content: space-between;
     width: 100%;
+    height: auto;
     overflow: scroll;
     align-items: center;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid #6e6e6e;
 }
 
 #notificationToggleHeader i {
     color: #b8b8b8;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 16px;
 }
 
 #notificationToggleSenderType {
@@ -388,10 +400,12 @@ li div {
 
 #inboxCount,
 #insightCount {
-    background: #c6cbab;
-    font-size: 10px;
-    padding: 5px;
-    border-radius: 5px;
+    background: var(--darkBlue);
+    font-size: 14px;
+    padding: 8px;
+    color: #000000;
+    font-weight: 700;
+    border-radius: 10px;
 }
 
 #details {
@@ -401,18 +415,19 @@ li div {
 
 #details #senderDetails {
     font-weight: 500;
+    font-size: 20px;
     margin-bottom: 5px;
 }
 
 #message {
-    color: #797877;
+    color: #aaaaaa;
     text-align: justify;
     margin-left: 10px;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 #notificationMessage {
-    display: flex;
+    display: none;
     align-items: flex-start;
     gap: 10px;
     justify-content: space-between;
@@ -429,29 +444,30 @@ li div {
     position: fixed;
     bottom: 0;
     left: 0;
-    box-shadow: 0 0 10px #00000017;
+    box-shadow: 0 0 10px #b1b1b1;
     width: 100%;
-    background: white;
+    background: whitesmoke;
     padding: 10px;
 }
 
 .settingsTab {
     display: flex;
     align-items: center;
-    background: var(--pageBackgroundColor);
+    background: var(--headerBackground);
     gap: 10px;
+    border-radius: 10px;
     width: 100%;
-    padding: 10px;
+    padding: 15px;
 }
 
 .settingsTab i {
-    color: var(--dimBlue);
+    color: white
 }
 
 .settingsTab a {
     text-decoration: none;
-    font-size: 12px;
-    color: var(--dimBlue);
+    font-size: 16px;
+    color: white;
     font-weight: 500;
 }
 
