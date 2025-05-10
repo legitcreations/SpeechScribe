@@ -56,6 +56,8 @@ function setSessionStorage(key, value) {
 function setLocalStorage(key, value) {
   localStorage.setItem(key, value);
 }
+
+
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const email = emailField.value.trim();
@@ -63,46 +65,49 @@ loginForm.addEventListener('submit', (e) => {
   loginError.textContent = '';
   loginButton.disabled = true;
   loginButton.textContent = 'Logging in...';
+  
+  // First, try to sign in the user
   signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       const user = userCredential.user;
-
+      
       try {
+        // If the email is correct, we now need to check the password
         const secretKeySnapshot = await getDoc(doc(firestoreDb, "Users_Encryption_Keys", user.uid));
         if (!secretKeySnapshot.exists()) {
           throw new Error("Secret key not found.");
         }
         const secretKey = secretKeySnapshot.data().key;
-        console.log("Secret Key:", secretKey); 
         const encryptedEmail = encryptData(email, secretKey);
-        console.log("Encrypted Email on Login:", encryptedEmail)
         const userRef = ref(rtdb, 'Users_Database/' + user.uid);
         const userSnapshot = await get(userRef);
+        
         if (!userSnapshot.exists()) {
           throw new Error("User not found.");
         }
         const storedEncryptedEmail = userSnapshot.val().email;
-        console.log("Stored Encrypted Email in DB:", storedEncryptedEmail); 
         const decryptedStoredEmail = decryptData(storedEncryptedEmail, secretKey);
+        
         if (decryptedStoredEmail === email) {
-          const sessionId =  generateSessionId();
+          // The email matches, so we create a session ID
+          const sessionId = generateSessionId();
           await setDoc(doc(firestoreDb, "User_Sessions", user.uid), {
             sessionId: sessionId,
-            lastLogin: new Date().toISOString() 
+            lastLogin: new Date().toISOString()
           });
-          setCookie('sessionId', sessionId, 7); 
+          setCookie('sessionId', sessionId, 7);
           setSessionStorage('sessionUserId', user.uid);
-          setLocalStorage('userAccount', user.uid); 
+          setLocalStorage('userAccount', user.uid);
           window.location.href = "/index.html";
         } else {
           loginError.textContent = "Login failed: Email does not match.";
         }
       } catch (error) {
-        loginError.textContent = `Login failed: ${error.message}`;
+          loginError.textContent = `Login failed: ${error.message}`;
       }
     })
     .catch((error) => {
-      loginError.textContent = error.message;
+        loginError.textContent = ` Login failed: ${error.message}`;
     })
     .finally(() => {
       loginButton.disabled = false;

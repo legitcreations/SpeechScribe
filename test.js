@@ -1,77 +1,60 @@
-// Notifications array to track all notifications
-const notifications = [];
-
-// Get DOM elements
-const notificationsCount = document.getElementById("notificationsCount");
-const notificationToggleMessage = document.querySelector("#notificationToggleMessage");
-
-// Function to send a notification
-function sendNotification(sender, message, link) {
-  // Add the new notification to the array
-  notifications.push({ sender, message, link, read: false });
-
-  // Create a notification block
-  const notificationMessage = document.createElement("div");
-  notificationMessage.className = "notificationMessage";
-  notificationMessage.setAttribute("role", "alert");
-  notificationMessage.style.display = "flex";
-  notificationMessage.style.justifyContent = "space-between";
-
-  notificationMessage.innerHTML = `
-    <div class="details">
-      <p class="senderDetails">${sender}</p>
-      <p class="message">${message}</p>
-      ${
-        link
-          ? `<a class="notificationLink" href="${link}">
-              Our Services
-            </a>`
-          : ""
-      }
-    </div>
-    <div class="notificationColor"></div>
-  `;
-
-  // Add click event to mark notification as read
-  notificationMessage.addEventListener("click", () => markAsRead(notificationMessage));
-
-  // Append the new notification
-  notificationToggleMessage.appendChild(notificationMessage);
-
-  // Update the notification count
-  updateNotificationCount();
-  notificationsCount.style.display = "flex";
-}
-
-// Function to mark a notification as read
-function markAsRead(notificationElement) {
-  // Hide the notificationColor indicator
-  const notificationColor = notificationElement.querySelector(".notificationColor");
-  if (notificationColor) notificationColor.style.display = "none";
-
-  // Mark the notification as read
-  const index = Array.from(notificationToggleMessage.children).indexOf(notificationElement);
-  if (index !== -1 && !notifications[index].read) {
-    notifications[index].read = true;
-
-    // Decrement the notification count
-    updateNotificationCount();
-  }
-}
-
-// Function to update the notification count dynamically
-function updateNotificationCount() {
-  const insightCount = document.querySelector("#insightCount");
-  const unreadCount = notifications.filter((notification) => !notification.read).length;
-
-  // Update count badges
-  notificationsCount.textContent = unreadCount;
-  insightCount.textContent = unreadCount;
-
-  // Hide badge if no unread notifications
-  if (unreadCount === 0) {
-    notificationsCount.style.display = "none";
-  } else {
-    notificationsCount.style.display = "flex"; // Ensure badge is visible if unread notifications exist
-  }
-}
+loginForm.addEventListener('submit', (e) => {
+	e.preventDefault();
+	const email = emailField.value.trim();
+	const password = passwordField.value.trim();
+	loginError.textContent = '';
+	loginButton.disabled = true;
+	loginButton.textContent = 'Logging in...';
+	
+	// First, try to sign in the user
+	signInWithEmailAndPassword(auth, email, password)
+		.then(async (userCredential) => {
+			const user = userCredential.user;
+			
+			try {
+				// If the email is correct, we now need to check the password
+				const secretKeySnapshot = await getDoc(doc(firestoreDb, "Users_Encryption_Keys", user.uid));
+				if (!secretKeySnapshot.exists()) {
+					throw new Error("Secret key not found.");
+				}
+				const secretKey = secretKeySnapshot.data().key;
+				const encryptedEmail = encryptData(email, secretKey);
+				const userRef = ref(rtdb, 'Users_Database/' + user.uid);
+				const userSnapshot = await get(userRef);
+				
+				if (!userSnapshot.exists()) {
+					throw new Error("User not found.");
+				}
+				const storedEncryptedEmail = userSnapshot.val().email;
+				const decryptedStoredEmail = decryptData(storedEncryptedEmail, secretKey);
+				
+				if (decryptedStoredEmail === email) {
+					const sessionId = generateSessionId();
+					await setDoc(doc(firestoreDb, "User_Sessions", user.uid), {
+						sessionId: sessionId,
+						lastLogin: new Date().toISOString()
+					});
+					setCookie('sessionId', sessionId, 7);
+					setSessionStorage('sessionUserId', user.uid);
+					setLocalStorage('userAccount', user.uid);
+					window.location.href = "/index.html";
+				} 
+				
+				/*else {
+					loginError.textContent = "Login failed: Email does not match.";
+				}*/
+			} catch (error) {
+				if (decryptedStoredEmail === email){
+					loginError.textContent="email not found"
+				}
+				if(password === user){
+					console.log("password is incorrect")
+				}
+				//loginError.textContent = `Login failed: ${error.message}`;
+			}
+		})
+		.finally(() => {
+			loginButton.disabled = false;
+			loginButton.textContent = 'Log in';
+		});
+});
