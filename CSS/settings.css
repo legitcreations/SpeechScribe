@@ -20,72 +20,40 @@
 }
 /* color syntax */
 :root {
-  --faintBlue: #ADBBDA5E;
+  --faintBlue: #adbbda5e;
   --borderLineWidth: 1px;
   --borderRadius: 10px;
-  --dimBlue: #4F2FE8FC;
-  --lightBlue: #7091E6;
-  --darkBlue: #8697CA;
-  --faintBlack: #6B6B6B;
+  --dimBlue: #4f2fe8fc;
+  --lightBlue: #7091e6;
+  --darkBlue: #8697ca;
+  --headerBackground: #262736;
+  --faintBlack: #6b6b6b;
   --pageBackgroundColor: #EDE8F5;
+  --dimColor: #3c3e5a;
   --paddingSmall: 10px;
   --paddingBig: 20px;
 }
 body{
-  background: white;
+  background: var(--dimColor);
 }
 header, .feedbackHeader{
   width: 100%;
-  background: var(--faintBlue);
+  background: var(--headerBackground);
   padding: var(--paddingBig);
   display: flex;
   position: relative;
+  color: white;
   justify-content: center;
   font-weight:500;
 }
+header *{
+  color: white;
+}
+
 header i, .feedbackHeader  i{
   position: absolute;
   left: 20px;
   cursor: pointer;
-}
-.alertContainer{
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 999;
-  left: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: none;
-}
-#closeAlert{
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  z-index: 1000;
-}
-.alertBox{
-  width: auto;
-  display: flex;
-  place-self: center;
-  gap: 5px;
-  overflow: hidden;
-  max-width: 10rem;
-  padding: 10px;
-  align-items: center;
-  flex-direction: column;
-  background: #000000;
-  text-align: center;
-  border-radius: 20px;
-}
-.alertBox img{
-  width:7rem;
-}
-.alertBox p{
-  color: #FF4E4E;
-  max-width: 8.8rem;
-  font-weight: 600;
-  
 }
 .settingsTab{
   padding: 10px;
@@ -102,7 +70,7 @@ header i, .feedbackHeader  i{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: whitesmoke;
+  background: floralwhite;
 }
 .settingsTab div a i{
   color: #6B6B6B;

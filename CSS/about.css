@@ -20,28 +20,34 @@
 }
 /* color syntax */
 :root {
-  --faintBlue: #ADBBDA5E;
-  --borderLineWidth: 1px;
-  --borderRadius: 10px;
-  --dimBlue: #4F2FE8FC;
-  --lightBlue: #7091E6;
-  --darkBlue: #8697CA;
-  --faintBlack: #6B6B6B;
-  --pageBackgroundColor: #EDE8F5;
-  --paddingSmall: 10px;
-  --paddingBig: 20px;
+    --faintBlue: #adbbda5e;
+    --borderLineWidth: 1px;
+    --borderRadius: 10px;
+    --dimBlue: #4f2fe8fc;
+    --lightBlue: #7091e6;
+    --darkBlue: #8697ca;
+    --headerBackground:#262736;
+    --faintBlack: #6b6b6b;
+    --pageBackgroundColor: #EDE8F5;
+    --dimColor:#3c3e5a;
+    --paddingSmall: 10px;
+    --paddingBig: 20px;
 }
 body{
-  background: white;
+  background: var(--dimColor);
 }
 header{
   width: 100%;
-  background: var(--faintBlue);
+  background: var(--headerBackground);
   padding: var(--paddingBig);
   display: flex;
   position: relative;
   justify-content: center;
   font-weight:500;
+  
+}
+header *{
+  color: #fff;
 }
 header i{
   position: absolute;
@@ -66,7 +72,7 @@ header i{
   padding-right: 20px;
   align-items: center;
   justify-content: space-between;
-  background: whitesmoke;
+  background: floralwhite;
 }
 .aboutTab div a i{
   color: #6B6B6B;
