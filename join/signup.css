@@ -19,16 +19,18 @@
 }
 /* color syntax */
 :root {
-  --faintBlue: #ADBBDA5E;
-  --borderLineWidth: 1px;
-  --borderRadius: 10px;
-  --dimBlue: #4F2FE8FC;
-  --lightBlue: #7091E6;
-  --darkBlue: #8697CA;
-  --faintBlack: #6B6B6B;
-  --pageBackgroundColor: #EDE8F5;
-  --paddingSmall: 10px;
-  --paddingBig: 20px;
+    --faintBlue: #adbbda5e;
+    --borderLineWidth: 1px;
+    --borderRadius: 10px;
+    --dimBlue: #4f2fe8fc;
+    --lightBlue: #7091e6;
+    --darkBlue: #8697ca;
+    --headerBackground:#262736;
+    --faintBlack: #6b6b6b;
+    --pageBackgroundColor: #EDE8F5;
+    --dimColor:#3c3e5a;
+    --paddingSmall: 10px;
+    --paddingBig: 20px;
 }
 
 body {
@@ -56,6 +58,7 @@ main {
     background: #0000001F;
   align-items: center;
   flex-direction: column;
+  gap: 15px;
   justify-content: center;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);

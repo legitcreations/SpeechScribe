@@ -2,35 +2,6 @@
 <html lang="en">
 
 <head>
-  <!-- Google Tag Manager -->
-  <script>
-    (function (w, d, s, l, i) {
-      w[l] = w[l] || [];
-      w[l].push({
-        'gtm.start': new Date().getTime(),
-        event: 'gtm.js'
-      });
-      var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s),
-        dl = l != 'dataLayer' ? '&l=' + l : '';
-      j.async = true;
-      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-      f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-PJRZD4KN');
-  </script>
-  <!-- End Google Tag Manager -->
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-239G8L2PGX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'G-239G8L2PGX');
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
@@ -49,21 +20,16 @@
 </head>
 
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJRZD4KN" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
   <header class="settingsHeader">
-    <i onclick="window.history.back()" class="fas fa-arrow-left"></i>
     <p class="headerText">
       Profile
     </p>
   </header>
   <div class="alertContainer">
     <svg id="closeAlert" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
-      <path fill="black"
+      <path fill="white"
         d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V7h16l.001 12H4z" />
-      <path fill="black"
+      <path fill="white"
         d="m15.707 10.707-1.414-1.414L12 11.586 9.707 9.293l-1.414 1.414L10.586 13l-2.293 2.293 1.414 1.414L12 14.414l2.293 2.293 1.414-1.414L13.414 13z" />
     </svg>
     <div class="alertBox">
@@ -71,7 +37,7 @@
       <p id="alerHeader">
         ALERT
       </p>
-      <p id="alertText" style="color: black; font-weight: 400;font-size:14px;"></p>
+      <p id="alertText" style="color: white; font-weight: 400;font-size:14px;"></p>
     </div>
   </div>
   <div class="profileContainer">
@@ -85,7 +51,8 @@
       <img src="/img/logo.jpg" alt="logo.jpg">
     </div>
     <div class="userImage">
-      <i id="profilePhoto" class="fas fa-fade fa-image"></i>
+      <i id="profilePhoto" class="fas fa-fade fa-image" title="Upload Profile Photo" style="cursor: pointer;"></i>
+      <input type="file" id="fileInput" accept="image/*" style="display: none;"> 
     </div>
     <div class="userDetails">
       <p class="header">
@@ -98,7 +65,7 @@
         </div>
         <div>
           <i class="fa fa-phone"></i>
-          <p id="telephone"></p>
+          <p id="tel"></p>
         </div>
         <div>
           <i class="fa fa-user-circle"></i>
@@ -115,15 +82,13 @@
       </div>
     </div>
   </div>
-
   <section id="editTab">
-    <i class="fas fa-times"></i>
+    <i id="closeEditTab" class="fas fa-times"></i>
     <div>
       <input id="inputId" type="text" placeholder="type here...">
       <button id="saveFileNameButton">Save</button>
     </div>
   </section>
-
   <script type="module" src="/JAVASCRIPT/profile.js">
   </script>
   <script>

@@ -15,49 +15,53 @@
   text-decoration: none;
   color: #000000;
 }
+
 ::-webkit-scrollbar {
-  width: 0px; /* Width of scrollbar */
+  width: 0px;
+  /* Width of scrollbar */
 }
-/* color syntax */
+
 :root {
-  --faintBlue: #ADBBDA5E;
-  --borderLineWidth: 1px;
-  --borderRadius: 10px;
-  --dimBlue: #4F2FE8FC;
-  --lightBlue: #7091E6;
-  --darkBlue: #8697CA;
-  --faintBlack: #6B6B6B;
-  --pageBackgroundColor: #EDE8F5;
-  --paddingSmall: 10px;
-  --paddingBig: 20px;
+    --faintBlue: #adbbda5e;
+    --borderLineWidth: 1px;
+    --borderRadius: 10px;
+    --dimBlue: #4f2fe8fc;
+    --lightBlue: #7091e6;
+    --darkBlue: #8697ca;
+    --headerBackground:#262736;
+    --faintBlack: #6b6b6b;
+    --pageBackgroundColor: #EDE8F5;
+    --dimColor:#3c3e5a;
+    --paddingSmall: 10px;
+    --paddingBig: 20px;
 }
 
 body {
-  
-  background-color: white;
+  background-color: var(--dimColor);
   display: block;
-  padding: var(--paddingSmall);
 }
 
 header {
+  padding: var(--paddingSmall);
   width: 100%;
-  background: var(--faintBlue);
+  background: var(--headerBackground);
   padding: var(--paddingBig);
   display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
+  justify-content: center;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-
   font-weight: 500;
   z-index: 1;
+  align-items:center;
 }
-.headerText{
-  margin-left: 45%;
+
+.headerText {
+  color: Whitesmoke;
+  font-size:1.5rem;
 }
+
 .profileContainer {
-  margin-top: 4rem;
+  padding: var(--paddingSmall);
   display: flex;
   flex-direction: column;
   gap: 3rem;
@@ -66,7 +70,7 @@ header {
 }
 
 .header {
-  color: var(--dimBlue);
+  color: #FFFFFFA8;
   font-weight: 600;
   font-size: 22px;
   width: 100%;
@@ -76,12 +80,14 @@ header {
 .userDetails {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: .5rem;
   width: 100%;
 }
 
 #bio {
   line-height: 25px;
+  color: white;
+  font-size: 18px;
 }
 
 .userDetails div,
@@ -90,7 +96,7 @@ header {
   cursor: pointer;
   grid-row-gap: 12px;
   padding: 10px;
-
+  
 }
 
 .userImage {
@@ -103,7 +109,6 @@ header {
   justify-content: center;
   align-items: center;
   font-size: 4rem;
-  box-shadow: 0 0 10px #F2F2F2;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -111,40 +116,7 @@ header {
 }
 
 .userImage i {
-  color: var(--dimBlue);
-}
-
-.profileButton {
-  display: none;
-  flex-direction: column;
-  position: fixed;
-  background: white;
-  top: 5rem;
-  box-shadow: 0 0 19px #F1F1F1;
-  right: 1rem;
-  z-index: 2;
-  cursor: pointer;
-  border-radius: 20px;
-}
-
-.show {
-  display: flex;
-}
-
-.profileButton div {
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  border-top: 0.7px solid var(--darkBlue);
-}
-
-.profileButton div:nth-child(1) {
-  border-top: none;
-}
-
-.profileButton div * {
-  color: black;
+  color: white;
 }
 
 .userAbout div {
@@ -155,62 +127,74 @@ header {
 
 .userAbout i {
   font-size: 24px;
-  background: white;
+  background: #FFFFFFB8;
   text-align: center;
-  box-shadow: 0 0 12px #FFFFFF, 3px 3px 10px #0000001C;
   width: 3rem;
   height: 3rem;
   align-items: center;
   line-height: 3rem;
-  color: var(--dimBlue);
+  color: var(--dimColor);
   border-radius: 50%;
-
+  
 }
-#spinnerBackground{
-  display: grid; 
+.userAbout div p{
+  color: white;
+  font-size:16px;
+}
+
+#spinnerBackground {
+  display: grid;
   place-items: center;
   height: 100%;
   width: 100%;
   position: fixed;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   background: #000000BA;
   z-index: 3;
 }
-#spinnerBackground img{
+
+#spinnerBackground img {
   width: 5rem;
   border-radius: 50%;
   animation: width .4s ease-in-out infinite;
 }
-@keyframes width{
-  0%{
+
+@keyframes width {
+  0% {
     width: 5rem;
   }
-  50%{
+  
+  50% {
     width: 7rem;
   }
-  100%{
+  
+  100% {
     width: 5rem;
   }
 }
-.alertContainer{
+
+.alertContainer {
   width: 100%;
   height: 100%;
   position: fixed;
   top: 0;
-  z-index: 999;
+  z-index: 4;
   left: 0;
-  background: #FFFFFF85;
+  background: #00000085;
   display: none;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  
 }
-#closeAlert{
+
+#closeAlert {
   position: absolute;
   right: 1rem;
   top: 1rem;
 }
-.alertBox{
+
+.alertBox {
   width: auto;
   display: flex;
   place-self: center;
@@ -220,52 +204,22 @@ header {
   padding: 15px;
   align-items: center;
   flex-direction: column;
-  box-shadow: 0 0 10px #EAEAEA;
-  background: #FFFEFE;
+  background: var(--dimColor);
   text-align: center;
-  border-radius: 35px;
+  border-radius: 15px;
 }
-.alertBox img{
-  width:7rem;
+
+.alertBox img {
+  width: 7rem;
 }
-.alertBox p{
-  color: red;
+
+.alertBox p {
+  color: white;
   max-width: 8.8rem;
   font-weight: 600;
-  
 }
-#deleteContainerCover{
-  position: fixed;
-  background: #FFFFFF85;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  display: none;
-  place-items: center;
-  
-}
-#deleteContainerCover.deleteShow{
-  display: grid;
-}
-#deleteContainer{
-  width: 80%;
-  background: white;
-  padding: 20px;
-  display: flex;
-  
-  align-items: center;
-  flex-direction: column;
-  box-shadow: 0 0 10px #0000001C;
-  border-radius: 20px;
-  gap: 15px;
-  padding-top: 40px;
-  position: relative;
-}
-#svgDiv{
+
+#svgDiv {
   padding: 15px;
   border-radius: 50%;
   background: white;
@@ -273,18 +227,21 @@ header {
   position: absolute;
   top: -35px;
 }
-#header{
+
+#header {
   font-weight: 600;
   font-size: 14px;
   text-align: center;
 }
-#bodyText{
+
+#bodyText {
   font-size: 12px;
   text-align: justify;
   color: #4E4E4E;
   line-height: 16px;
 }
-#deleteButton{
+
+#deleteButton {
   display: flex;
   justify-content: right;
   gap: 10px;
@@ -292,18 +249,21 @@ header {
   cursor: pointer;
   
 }
-#deleteButton button{
+
+#deleteButton button {
   padding: 7px 17px;
   border: none;
   cursor: pointer;
   background: transparent;
 }
-#deleteButton button:nth-child(2){
+
+#deleteButton button:nth-child(2) {
   background: red;
-  color:white;
+  color: white;
   border-radius: 10px;
 }
-#editTab{
+
+#editTab {
   display: none;
   place-items: center;
   width: 100%;
@@ -311,13 +271,14 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  background: white;
+  background: var(--headerBackground);
   z-index: 2;
 }
-#editTab div{
+
+#editTab div {
   display: flex;
   flex-direction: column;
-  background: whitesmoke;
+  background: #FFFFFFB8;
   border-radius: 30px;
   padding: 20px;
   gap: 20px;
@@ -325,10 +286,11 @@ header {
   width: 75%;
   align-items: center;
 }
-#editTab i{
+
+#editTab i {
   color: #464646;
-  padding: 15px 20px; 
-  background: whitesmoke;
+  padding: 15px 20px;
+  background: #FFFFFFB8;
   border-radius: 30px;
   font-size: 14px;
   left: 10px;
@@ -336,7 +298,8 @@ header {
   position: absolute;
   
 }
-#inputId{
+
+#inputId {
   width: 100%;
   font-size: 16px;
   padding: 15px;
@@ -344,71 +307,75 @@ header {
   border: none;
   border-radius: 30px;
 }
-#saveFileNameButton{
-  padding: 16px 20px; 
+
+#saveFileNameButton {
+  padding: 16px 20px;
   border: none;
   border-radius: 20px;
   background: var(--dimBlue);
   color: #fff;
   font-size: 16px;
 }
+
 @media (min-width:768px) {
   body {
-    display: grid;
-    place-items: center;
+    display: block;
     height: 100vh;
+    overflow: hidden;
   }
-
+  
   .profileContainer {
     display: flex;
-    align-items: flex-start;
+    gap: 2px;
+    height: inherit;
     flex-direction: row;
-    padding: 40px;
+    padding: 20px;
   }
-
+  
   header {
     font-size: 1.8rem;
   }
-
+  
   .header {
     font-size: 1.8rem;
   }
-
+  
   .userImage {
     display: flex;
     width: 45rem;
-    height: 16rem;
   }
-
+  
   .userDetails div,
   #bio {
     background: none;
     font-size: 1rem;
   }
-
+  
   #bio {
     line-height: 35px;
   }
+  
   .userAbout i {
     width: 3.5rem;
     height: 3.5rem;
     line-height: 3.5rem;
   }
-  #deleteContainer{
-    width:60%;
-  }
-  #header{
+  
+  #header {
     font-size: 20px;
   }
-  #bodyText{
+  
+  #bodyText {
     font-size: 16px;
     line-height: 25px;
   }
-  #deleteButton button{
+  
+  #deleteButton button {
     font-size: 19px;
     padding: 10px 20px;
   }
-  #deleteButton button:nth-child(2){
+  
+  #deleteButton button:nth-child(2) {
     border-radius: 15px;
   }
 }

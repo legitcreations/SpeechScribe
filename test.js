@@ -1,60 +1,41 @@
-loginForm.addEventListener('submit', (e) => {
-	e.preventDefault();
-	const email = emailField.value.trim();
-	const password = passwordField.value.trim();
-	loginError.textContent = '';
-	loginButton.disabled = true;
-	loginButton.textContent = 'Logging in...';
+function bindProfileData(data, key, uid) {
+	const editableFields = ["bio", "age", "address"];
+	const readonlyFields = ["email", "tel", "username"]; // Updated key
 	
-	// First, try to sign in the user
-	signInWithEmailAndPassword(auth, email, password)
-		.then(async (userCredential) => {
-			const user = userCredential.user;
-			
-			try {
-				// If the email is correct, we now need to check the password
-				const secretKeySnapshot = await getDoc(doc(firestoreDb, "Users_Encryption_Keys", user.uid));
-				if (!secretKeySnapshot.exists()) {
-					throw new Error("Secret key not found.");
-				}
-				const secretKey = secretKeySnapshot.data().key;
-				const encryptedEmail = encryptData(email, secretKey);
-				const userRef = ref(rtdb, 'Users_Database/' + user.uid);
-				const userSnapshot = await get(userRef);
-				
-				if (!userSnapshot.exists()) {
-					throw new Error("User not found.");
-				}
-				const storedEncryptedEmail = userSnapshot.val().email;
-				const decryptedStoredEmail = decryptData(storedEncryptedEmail, secretKey);
-				
-				if (decryptedStoredEmail === email) {
-					const sessionId = generateSessionId();
-					await setDoc(doc(firestoreDb, "User_Sessions", user.uid), {
-						sessionId: sessionId,
-						lastLogin: new Date().toISOString()
-					});
-					setCookie('sessionId', sessionId, 7);
-					setSessionStorage('sessionUserId', user.uid);
-					setLocalStorage('userAccount', user.uid);
-					window.location.href = "/index.html";
-				} 
-				
-				/*else {
-					loginError.textContent = "Login failed: Email does not match.";
-				}*/
-			} catch (error) {
-				if (decryptedStoredEmail === email){
-					loginError.textContent="email not found"
-				}
-				if(password === user){
-					console.log("password is incorrect")
-				}
-				//loginError.textContent = `Login failed: ${error.message}`;
-			}
-		})
-		.finally(() => {
-			loginButton.disabled = false;
-			loginButton.textContent = 'Log in';
-		});
-});
+	[...editableFields, ...readonlyFields].forEach(field => {
+		const el = document.getElementById(field);
+		if (!el) return;
+		
+		let value;
+		if (data[field]) {
+			value = CryptoUtils.decrypt(data[field], key, `${uid}_${field}`);
+		} else if (field === 'phone_number' && data['telephone']) { // Handle potential old key
+			value = CryptoUtils.decrypt(data['telephone'], key, `${uid}_telephone`);
+		}
+		else {
+			value = "Tap to edit";
+		}
+		el.textContent = value;
+		
+		// LOGGING email, telephone, and username
+		if (readonlyFields.includes(field)) {
+			console.log(`Raw ${field} data:`, data[field]); // Add this line
+			const value = data[field] ? CryptoUtils.decrypt(data[field], key, `${uid}_${field}`) : "Tap to edit";
+			el.textContent = value;
+		}
+		
+		if (editableFields.includes(field)) {
+			el.addEventListener("click", () => showEditField(el, field, uid, key));
+		}
+	});
+	
+	// Profile Image (rest of the function remains the same)
+	if (data.profileImage) {
+		const decryptedImage = CryptoUtils.decrypt(data.profileImage, key, `${uid}_profileImage`);
+		const userImage = document.querySelector(".userImage");
+		if (userImage) {
+			userImage.style.backgroundImage = `url(${decryptedImage})`;
+			document.getElementById("profilePhoto").style.display = "none";
+		}
+	}
+}

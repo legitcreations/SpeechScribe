@@ -80,20 +80,17 @@ window.addEventListener("DOMContentLoaded", () => {
 	})
 	
 	async function countUserRecordings() {
-		const thisUser = auth.currentUser;
-		const recordingsRef = collection(firestoreDb, 'Users_Recordings', thisUser.uid, 'recordings');
+		if (!auth.currentUser) return;
+		
+		const thisUserRecordingsRef = collection(firestoreDb, 'Users_Recordings', auth.currentUser.uid, 'recordings');
 		
 		try {
-			const querySnapshot = await getDocs(recordingsRef);
+			const querySnapshot = await getDocs(thisUserRecordingsRef);
 			const count = querySnapshot.size;
-			
 			const recordedFilesCountElement = document.getElementById("recordedFilesCount");
-			if (count > 0) {
-				recordedFilesCountElement.style.display = "flex";
-				recordedFilesCountElement.textContent = count;
-			} else {
-				recordedFilesCountElement.style.display = "none";
-			}
+			
+			recordedFilesCountElement.style.display = count > 0 ? "flex" : "none";
+			recordedFilesCountElement.textContent = count;
 			
 			return count;
 		} catch (error) {
@@ -114,7 +111,7 @@ window.addEventListener("DOMContentLoaded", () => {
 				return null;
 			}
 		} catch (error) {
-			customAlert(`Error retrieving session ID: ${error.message || error}`);
+			console.warn(`Error retrieving session ID: ${error.message || error}`);
 			return null;
 		}
 	}
@@ -177,36 +174,36 @@ window.addEventListener("DOMContentLoaded", () => {
 			}
 		}
 		else {
-	// Non-authenticated user flow
-	const sessionIdCookie = document.cookie.split('; ').find(row => row.startsWith('sessionId='));
-	
-	if (sessionIdCookie) {
-		const sessionId = sessionIdCookie.split('=')[1];
-		try {
-			const userSessionDoc = await getDoc(doc(firestoreDb, "User_Sessions", sessionId));
-			if (userSessionDoc.exists()) {
-				customAlert("Session found. Please log in to continue.");
+			// Non-authenticated user flow
+			const sessionIdCookie = document.cookie.split('; ').find(row => row.startsWith('sessionId='));
+			
+			if (sessionIdCookie) {
+				const sessionId = sessionIdCookie.split('=')[1];
+				try {
+					const userSessionDoc = await getDoc(doc(firestoreDb, "User_Sessions", sessionId));
+					if (userSessionDoc.exists()) {
+						customAlert("Session found. Please log in to continue.");
+					} else {
+						customAlert("Session is invalid or expired. Please log in again.");
+					}
+					setTimeout(() => {
+						window.location.href = "/login/login.html";
+					}, 3000);
+				} catch (error) {
+					console.error("Error in session check:", error);
+					customAlert("Error verifying session. Redirecting to login...");
+					setTimeout(() => {
+						window.location.href = "/login/login.html";
+					}, 3000);
+				}
 			} else {
-				customAlert("Session is invalid or expired. Please log in again.");
+				customAlert("Welcome! Let's get you started. Redirecting to signup...");
+				setTimeout(() => {
+					window.location.href = "/join/signup.html";
+				}, 3000);
 			}
-			setTimeout(() => {
-				window.location.href = "/login/login.html";
-			}, 3000);
-		} catch (error) {
-			console.error("Error in session check:", error);
-			customAlert("Error verifying session. Redirecting to login...");
-			setTimeout(() => {
-				window.location.href = "/login/login.html";
-			}, 3000);
 		}
-	} else {
-		customAlert("Welcome! Let's get you started. Redirecting to signup...");
-		setTimeout(() => {
-			window.location.href = "/join/signup.html";
-		}, 3000);
-	}
-}
-});
+	});
 	
 	let mediaRecorder, isRecording = false,
 		isPaused = false,
@@ -229,6 +226,16 @@ window.addEventListener("DOMContentLoaded", () => {
 	recognition.onerror = (event) => {
 		customAlert("Speech recognition failed. Check network connection or try again. " + event.error);
 	};
+	
+	function updateRecordingButtonState() {
+		startRecording.disabled = !navigator.onLine;
+	}
+	
+	window.addEventListener('online', updateRecordingButtonState);
+	window.addEventListener('offline', updateRecordingButtonState);
+	
+	document.addEventListener('DOMContentLoaded', updateRecordingButtonState);
+	
 	navigator.mediaDevices.getUserMedia({
 			audio: true
 		})
@@ -269,75 +276,129 @@ window.addEventListener("DOMContentLoaded", () => {
 	function handleError(message) {
 		customAlert(message);
 	}
-	startRecording.addEventListener('click',
-		function() {
-			function startRecording() {
-				navigator.mediaDevices.getUserMedia({
-					audio: {
-						sampleRate: 10000,
-						channelCount: 2,
-						echoCancellation: true,
-						noiseSuppression: true,
-						autoGainControl: true
-					}
-				}).then(stream => {
-					mediaRecorder = new MediaRecorder(stream);
-					let chunks = [];
-					mediaRecorder.ondataavailable = (event) => {
-						if (event.data.size > 0) {
-							chunks.push(event.data);
-						}
-					};
-					mediaRecorder.onstop = () => {
-						const blob = new Blob(chunks, {
-							type: 'audio/mp3'
-						});
-						currentBlob = blob;
-						recordings.push(blob);
-						chunks = [];
-					};
-					
-					mediaRecorder.onerror = (event) => {
-						handleError("Recording error: " + event.error);
-						stopAllOperations();
-					};
-					
-					mediaRecorder.start();
-					recognition.start();
-					
-					recognition.onerror = (event) => {
-						handleError("Speech recognition error: " + event.error);
-						stopAllOperations();
-					};
-					
-					drawFrequencyBars(stream);
-					isRecording = true;
-					updateButtonStates();
-					startTimer();
-					canvas.style.visibility = "visible";
-					stopButton.style.cssText = "background-color: #7091E6; color: white;";
-					
-				}).catch(err => {
-					handleError('Error accessing microphone: ' + err.message);
-					stopAllOperations(); // Ensure all updates are halted on error
-				});
-			}
-			
-			function stopAllOperations() {
-				isRecording = false;
-				updateButtonStates();
-				stopTimer();
-				canvas.style.visibility = "hidden";
-				stopButton.style.cssText = ""; // Reset stop button styles
-				pauseButton.classList.remove("fa-play");
-				recordTimeCounter.textContent = "00 : 00 : 00"
-				pauseButton.style.cssText = ""
-				pauseButton.classList.add("fa-pause");
-			}
-			
-			startRecording();
-		});
 	
+	startRecording.addEventListener('click', function() {
+		
+		if (!navigator.onLine) {
+			handleError("No internet connection. Please connect to the internet before recording.");
+			return;
+		}
+		
+		if (isRecording || isPaused) {
+			customAlert("Recording already in progress or paused. Cannot start a new one.");
+			return; // Block if recording is already active or paused
+		}
+		
+		function startRecording() {
+			navigator.mediaDevices.getUserMedia({
+				audio: {
+					sampleRate: 10000,
+					channelCount: 2,
+					echoCancellation: true,
+					noiseSuppression: true,
+					autoGainControl: true
+				}
+			}).then(stream => {
+				mediaRecorder = new MediaRecorder(stream);
+				let chunks = [];
+				
+				mediaRecorder.ondataavailable = (event) => {
+					if (event.data.size > 0) {
+						chunks.push(event.data);
+					}
+				};
+				
+				mediaRecorder.onstop = () => {
+					const blob = new Blob(chunks, { type: 'audio/mp3' });
+					currentBlob = blob;
+					recordings.push(blob);
+					chunks.length = 0;
+				};
+				
+				mediaRecorder.onerror = (event) => {
+					handleError("Recording error: " + event.error);
+					stopAllOperations();
+				};
+				
+				mediaRecorder.start();
+				recognition.start();
+				
+				recognition.onerror = (event) => {
+					handleError("Speech recognition error: " + event.error);
+					stopAllOperations();
+				};
+				
+				drawFrequencyBars(stream);
+				isRecording = true;
+				isPaused = false; // Reset pause state
+				updateButtonStates();
+				startTimer();
+				canvas.style.visibility = "visible";
+				stopButton.style.cssText = "background-color: #7091E6; color: white;";
+			}).catch(err => {
+				handleError('Error accessing microphone: ' + err.message);
+				stopAllOperations();
+			});
+		}
+		
+		function stopAllOperations() {
+			if (mediaRecorder && mediaRecorder.state !== "inactive") {
+				try {
+					mediaRecorder.stop();
+					recognition.stop();
+					isRecording = isPaused = false;
+					updateButtonStates();
+					stopTimer();
+					resetTimer();
+				} catch (e) {
+					console.warn("mediaRecorder stop failed:", e.message);
+				}
+			}
+			
+			// Stop the stream tracks if available
+			if (mediaRecorder?.stream) {
+				mediaRecorder.stream.getTracks().forEach(track => track.stop());
+			}
+			
+			// Stop recognition
+			if (recognition) {
+				try {
+					recognition.stop();
+				} catch (e) {
+					console.warn("Speech recognition stop failed:", e.message);
+				}
+			}
+			
+			isRecording = false;
+			isPaused = false;
+			
+			stopTimer();
+			stopFrequencyBars(); // In case this function exists
+			
+			updateButtonStates();
+			
+			canvas.style.visibility = "hidden";
+			stopButton.style.cssText = "";
+			pauseButton.classList.remove("fa-play");
+			pauseButton.classList.add("fa-pause");
+			pauseButton.style.cssText = "";
+			recordTimeCounter.textContent = "00 : 00 : 00";
+		}
+		startRecording();
+	});
+	
+	function removeNetworkListener() {
+		window.removeEventListener('offline', handleOffline);
+	}
+	removeNetworkListener(); // Clean up event listener
+	
+	function handleOffline() {
+		if (isRecording || isPaused) {
+			handleError("Network disconnected. Recording stopped.");
+			stopAllOperations();
+			removeNetworkListener();
+		}
+	}
 	pauseRecording.addEventListener("click", () => {
 		function togglePauseResume() {
 			if (!mediaRecorder) return;
@@ -350,10 +411,10 @@ window.addEventListener("DOMContentLoaded", () => {
 				
 				updateRecordingStatus("Paused");
 				stopTimer();
-				stopFrequencyBars();
 				
 				pauseButton.classList.remove("fa-play");
 				pauseButton.classList.add("fa-play");
+				canvas.style.visibility = "hidden";
 				
 				pauseButton.style.cssText = " color: #4F2FE8FC; border-radius: 50%;";
 				

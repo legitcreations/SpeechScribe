@@ -32,22 +32,24 @@
 
     /* color syntax */
     :root {
-      --faintBlue: #adbbda5e;
-      --borderLineWidth: 1px;
-      --borderRadius: 10px;
-      --dimBlue: #4f2fe8fc;
-      --lightBlue: #7091e6;
-      --darkBlue: #8697ca;
-      --faintBlack: #6b6b6b;
-      --pageBackgroundColor: #ede8f5;
-      --paddingSmall: 10px;
-      --paddingBig: 20px;
-    }
+    --faintBlue: #adbbda5e;
+    --borderLineWidth: 1px;
+    --borderRadius: 10px;
+    --dimBlue: #4f2fe8fc;
+    --lightBlue: #7091e6;
+    --darkBlue: #8697ca;
+    --headerBackground:#262736;
+    --faintBlack: #6b6b6b;
+    --pageBackgroundColor: #EDE8F5;
+    --dimColor:#3c3e5a;
+    --paddingSmall: 10px;
+    --paddingBig: 20px;
+}
 
     body {
       width: 100vw;
       height: 100Vh;
-      background: whitesmoke;
+      background: var(--dimColor);
       display: grid;
       place-items: center;
     }
@@ -86,11 +88,12 @@
 
     .successMsg p {
       font-weight: 500;
+      color: white;
       margin-bottom: 10px;
     }
 
     .successMsg span {
-      color: #00000099;
+      color: #FFFFFFD9;
       font-size: 13px;
     }
 

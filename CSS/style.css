@@ -39,13 +39,11 @@ body {
     height: 100%;
     display: grid;
     grid-row-gap: 1rem;
-    background: white;
+    background: var(--dimColor);
 }
 
 header {
-    box-shadow:
-        -3px -3px 12px #ffffff,
-        3px 3px 3px #0000001c;
+  
     padding: 10px;
     background: var(--headerBackground);
 }
@@ -121,7 +119,7 @@ nav h2 {
     top: 0;
     z-index: 3;
     left: 0;
-    background: #ffffff85;
+    background: #00000085;
     display: none;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
@@ -144,10 +142,9 @@ nav h2 {
     padding: 15px;
     align-items: center;
     flex-direction: column;
-    box-shadow: 0 0 10px #eaeaea;
-    background: #fffefe;
+    background: var(--dimColor);
     text-align: center;
-    border-radius: 35px;
+    border-radius: 15px;
 }
 
 .alertBox img {
@@ -155,7 +152,7 @@ nav h2 {
 }
 
 .alertBox p {
-    color: red;
+    color: white;
     max-width: 8.8rem;
     font-weight: 600;
 }
@@ -495,16 +492,17 @@ li div {
     align-items: center;
     padding: 18px 19px;
     border: 1.5px solid #f4f4f4;
-    border-radius: 15px;
+    border-radius: 10px;
     background: whitesmoke;
-    box-shadow:
-        -3px -3px 12px #ffffff,
-        3px 3px 3px #0000001c;
+    
 }
-
+.searchRecordingContainer i{
+    font-size: 20px;
+    color: #000000;
+}
 .searchRecordingContainer p {
-    font-size: 16px;
-    color: #42445acf;
+    font-size: 18px;
+    color: #000000;
 }
 
 .secondHeaderContainer {
@@ -515,6 +513,7 @@ li div {
 
 .secondHeaderContainer p {
     font-weight: 500;
+    color: whitesmoke;
     font-size: 20px;
 }
 
@@ -564,11 +563,11 @@ li div {
     width: 15rem;
     height: 15rem;
     border-radius: 50%;
-    box-shadow: 0 0 16px var(--faintBlue);
-    background: white;
+    background: whitesmoke;
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .buttonBorder1 {
@@ -592,7 +591,6 @@ li div {
     height: 9rem;
     cursor: pointer;
     border-radius: 50%;
-    background: white;
 }
 
 .buttonContainer2 {
@@ -604,6 +602,7 @@ li div {
 
 .recordTimeCounter {
     font-weight: 500;
+    color: #FFFFFF99;
 }
 
 .fa-pause,
@@ -613,11 +612,10 @@ li div {
     line-height: 4rem;
     cursor: pointer;
     text-align: center;
-    font-size: 18px;
+    font-size: 22px;
     border-radius: 50%;
-    background: white;
-    color: var(--dimBlue);
-    box-shadow: 0 0 10px var(--faintBlue);
+    background: #FFFFFF99;
+    color: var(--headerBackground);
 }
 
 #uploadFileContainer {
@@ -630,16 +628,13 @@ li div {
     justify-content: center;
     align-self: center;
     text-align: center;
-    background: whitesmoke;
+    background: var(--pageBackgroundColor);
     margin-top: 1.5rem;
-    box-shadow:
-        -3px -3px 12px #ffffff,
-        3px 3px 5px #0000001c;
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 #uploadFileContainer p {
-    color: #42445acf;
+    color: black;
     display: flex;
     font-weight: 500;
     align-self: center;
@@ -913,7 +908,7 @@ li div {
 
 #shareContainer div a {
     font-size: 18px;
-    background: #3c3e5a;
+    background: var(--headerBackground);
     border-radius: 50%;
     width: 3rem;
     height: 3rem;
