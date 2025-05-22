@@ -649,19 +649,11 @@ li div {
     height: 0%;
     width: 100%;
     padding: 1rem;
-    top: -100%;  
+    top: -100%; 
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    background: #f8f8f8c2;
+    background: var(--headerBackground);
     z-index: 3;
-}
-
-.closeContainer i {
-    color: #464646;
-    padding: 10px;
-    border: 1.5px solid var(--faintBlue);
-    width: auto;
-    margin-bottom: 1rem;
 }
 
 .recordingTitle {
@@ -677,8 +669,11 @@ li div {
     border-bottom: 1px solid var(--faintBlue);
     font-size: 20px;
     background: none;
+    color: #fff;
 }
-
+.recordingTitle input::placeholder {
+    color: #FFFFFF87;
+}
 .buttons {
     display: grid;
     grid-row-gap: 1rem;
@@ -690,14 +685,15 @@ li div {
     font-weight: 500;
     border-radius: 15px;
     font-size: 14px;
-    background: var(--dimBlue);
+    background: #38B76E;
     color: white;
 }
 
 #cancelRecordingButton {
     background: none;
-    border: 1px outset var(--lightBlue);
-    color: var(--lightBlue);
+    background: var(--faintBlue);
+    border: 1px outset var(--faintBlue);
+    color: white;
 }
 
 #spinnerBackground {

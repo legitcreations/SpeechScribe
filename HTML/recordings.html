@@ -6,6 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="theme-color" content="#3c3e5a" />
 
   <!-- Page Title -->
   <title>Recordings | SpeechScribe</title>
@@ -48,15 +49,15 @@
   </header>
   <div class="alertContainer">
     <svg id="closeAlert" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
-      <path fill="black"
+      <path fill="white"
         d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V7h16l.001 12H4z" />
-      <path fill="black"
+      <path fill="white"
         d="m15.707 10.707-1.414-1.414L12 11.586 9.707 9.293l-1.414 1.414L10.586 13l-2.293 2.293 1.414 1.414L12 14.414l2.293 2.293 1.414-1.414L13.414 13z" />
     </svg>
     <div class="alertBox">
       <img src="/img/alert.png" alt="alertImg" />
       <p id="alerHeader">ALERT</p>
-      <p id="alertText" style="color: black; font-weight: 400; font-size: 14px"></p>
+      <p id="alertText" style="font-weight: 400; font-size: 14px"></p>
     </div>
   </div>
   <div id="spinnerBackground">
@@ -96,11 +97,11 @@
       <img src="/img/Pink and Black Modern Initials Logo Design_20241108_045734_1.png" alt="" id="playerCanvas" />
       <div id="playerControls">
         <div id="controlAlt">
-          <i id="downloadFile" class="fas fa-download"></i>
+          <i id="shareFile" class="fas fa-share-alt"></i>
           <p style="font-weight: 500" id="playingDuration">
             00 : 00 : 00
           </p>
-          <i id="shareFile" class="fas fa-share-alt"></i>
+          <i id="downloadFile" class="fas fa-download"></i>
         </div>
         <div id="audioControls">
           <i id="backwardBtn" class="fa fa-backward"></i>

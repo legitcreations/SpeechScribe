@@ -17,15 +17,17 @@
   width: 0px; /* Width of scrollbar */
 }
 /* color syntax */
-:root {
-  --faintBlue: #ADBBDA5E;
+::root {
+  --faintBlue: #adbbda5e;
   --borderLineWidth: 1px;
   --borderRadius: 10px;
-  --dimBlue: #4F2FE8FC;
-  --lightBlue: #7091E6;
-  --darkBlue: #8697CA;
-  --faintBlack: #6B6B6B;
+  --dimBlue: #4f2fe8fc;
+  --lightBlue: #7091e6;
+  --darkBlue: #8697ca;
+  --headerBackground: #262736;
+  --faintBlack: #6b6b6b;
   --pageBackgroundColor: #EDE8F5;
+  --dimColor: #3C3E5A;
   --paddingSmall: 10px;
   --paddingBig: 20px;
 }
@@ -34,24 +36,22 @@ body {
   width: 100vw;
   height: 100%;
   padding: 10px;
-  background: white;
+  background: #3C3E5A;
 }
 
 header {
-  box-shadow: -3px -3px 12px #FFFFFF, 3px 3px 5px #0000001C;
   width: 100%;
-  background: white;
+  background: #262736;
   padding: var(--paddingBig);
   display: flex;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
   justify-content: center;
   font-weight: 500;
 }
+header *{color: #ffffff;}
 
 #noFileIndicator {
   display: none;
@@ -85,7 +85,6 @@ header {
 
 .searchRecordingContainer div {
   height: 80%;
-
   border: 1.5px outset var(--faintBlue)
 }
 
@@ -96,9 +95,14 @@ header {
   border: none;
   width: 100%;
   height: 100%;
-  color: #000000;
+  color: #fff;
 }
-
+.searchRecordingContainer input::placeholder {
+  color: white;
+}
+.searchRecordingContainer *{
+  color:white;
+}
 .searchQuery {
   color: #3C3C3C;
   position: absolute;
@@ -128,7 +132,6 @@ header {
   background: whitesmoke;
   border-radius: 20px;
   position: relative;
-  box-shadow: -3px -3px 12px #FFFFFF, 3px 3px 5px #0000001C;
 
 }
 
@@ -149,7 +152,7 @@ header {
   cursor: pointer;
   background: white;
   border-radius: 50%;
-  color: #93AFD8;
+  color: #262736;
   font-size: 3rem;
   display: inline-block;
   position: relative;
@@ -240,7 +243,7 @@ header {
   top: 0;
   z-index: 999;
   left: 0;
-  background: #FFFFFF85;
+  background: #00000085;
   display: none;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -253,19 +256,18 @@ header {
 }
 
 .alertBox {
-  width: auto;
-  display: flex;
-  place-self: center;
-  gap: 5px;
-  overflow: hidden;
-  max-width: 13rem;
-  padding: 15px;
-  align-items: center;
-  flex-direction: column;
-  box-shadow: 0 0 10px #EAEAEA;
-  background: #FFFEFE;
-  text-align: center;
-  border-radius: 35px;
+    width: auto;
+    display: flex;
+    place-self: center;
+    gap: 5px;
+    overflow: hidden;
+    max-width: 13rem;
+    padding: 15px;
+    align-items: center;
+    flex-direction: column;
+    background: #3C3E5A;
+    text-align: center;
+    border-radius: 15px;
 }
 
 .alertBox img {
@@ -273,7 +275,7 @@ header {
 }
 
 .alertBox p {
-  color: red;
+  color: white;
   max-width: 8.8rem;
   font-weight: 600;
 
