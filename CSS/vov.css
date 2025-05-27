@@ -34,12 +34,13 @@
     --pageBackgroundColor: #2b3952;
     --paddingSmall: 10px;
     --paddingBig: 20px;
+    --dimColor:#3c3e5a;
 }
 
 body {
     height: 100vh;
     width: 100vw;
-    background: var(--pageBackgroundColor);
+    background: var(--dimColor);
 
 }
 
@@ -50,7 +51,7 @@ header {
     padding: var(--paddingBig);
     align-items: center;
     width: 100%;
-    box-shadow: 0 0 10px #ffffff3f;
+    box-shadow: 0 0 10px 2px #000000EB;
     z-index: 1;
     width: 100%;
 

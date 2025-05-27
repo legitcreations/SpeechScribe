@@ -117,7 +117,7 @@ nav h2 {
     height: 100%;
     position: fixed;
     top: 0;
-    z-index: 3;
+    z-index: 10;
     left: 0;
     background: #00000085;
     display: none;
@@ -246,7 +246,6 @@ nav h2 {
     display: grid;
     background: var(--dimColor);
     padding: 10px;
-    
     border-radius: 12px;
     grid-row-gap: 1rem;
 }
@@ -417,13 +416,13 @@ li div {
     width: 80%;
 }
 
-#details #senderDetails {
+.details .senderDetails {
     font-weight: 500;
     font-size: 20px;
     margin-bottom: 5px;
 }
 
-#message {
+.message {
     color: #aaaaaa;
     text-align: justify;
     margin-left: 10px;
@@ -438,8 +437,8 @@ li div {
     overflow: auto;
 }
 
-#notificationColor {
-    background: #ffac50;
+.notificationColor {
+    background: #38B76E;
     padding: 5px;
     border-radius: 50%;
 }
@@ -678,7 +677,11 @@ li div {
     display: grid;
     grid-row-gap: 1rem;
 }
-
+#saveButtonSpinner .spinner {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+}
 .buttons button {
     padding: 1.2rem 1rem;
     border: none;
@@ -705,7 +708,7 @@ li div {
     top: 0;
     left: 0;
     background: #000000ba;
-    z-index: 3;
+    z-index: 1000;
 }
 
 #spinnerBackground img {
@@ -734,8 +737,8 @@ li div {
     top: 0;
     position: fixed;
     width: 100%;
-    z-index: 3;
-    background: white;
+    z-index: 2;
+    background: var(--headerBackground);
     height: 100%;
     place-items: center;
 }
@@ -744,6 +747,7 @@ li div {
     position: absolute;
     top: 1rem;
     left: 1rem;
+    color: #fff;
     cursor: pointer;
 }
 
@@ -760,6 +764,7 @@ li div {
     height: 16rem;
     flex-grow: 1;
     position: relative;
+    background: var(--dimColor);
 }
 
 #flexContainer {
@@ -772,7 +777,6 @@ li div {
 }
 
 #fileTabDiv {
-    border: 1px solid;
     overflow: hidden;
     border-radius: 20px;
     display: flex;
@@ -782,10 +786,8 @@ li div {
     padding: 10px;
     flex-direction: column;
     align-items: center;
+    background: var(--headerBackground);
     justify-content: center;
-}
-
-#fileTabDiv {
     border: 2px outset var(--lightBlue);
 }
 
@@ -806,6 +808,7 @@ li div {
 
 #fileTabDiv div p {
     font-size: 10px;
+    color: #fff;
     text-align: center;
     font-weight: 500;
 }
@@ -822,6 +825,7 @@ li div {
 
 #fileTabDiv div code {
     font-size: 6px;
+    color: #fff;
 }
 
 #uploadsTabDiv {
@@ -830,11 +834,12 @@ li div {
     padding: 15px;
     gap: 5px;
     align-items: center;
+    border: 2px inset var(--lightBlue);
     border-radius: 20px;
-    box-shadow: 0 0 8px #0000000f;
     width: 50%;
     height: 100% !important;
     position: relative;
+    background: var(--headerBackground);
     overflow: hidden;
 }
 
@@ -849,6 +854,7 @@ li div {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    color: #fff;
     font-size: 12px;
 }
 
@@ -880,7 +886,7 @@ li div {
     padding: 12px;
     border-radius: 10px;
     border: none;
-    background: #2147ca;
+    background: #38B76E;
     bottom: 0;
     color: white;
     cursor: pointer;
