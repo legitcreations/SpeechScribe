@@ -1,125 +1,70 @@
-document.getElementById("notificationsContainer").onclick = function() {
-	document.querySelector(".notificationCover").style.display = "grid"
-}
-document.getElementById("closeNotification").onclick = function() {
-	document.querySelector(".notificationCover").style.display = "none"
-}
-
-let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
-
-// Get DOM elements
-const notificationsCount = document.getElementById("notificationsCount");
-const notificationToggleMessage = document.querySelector("#notificationToggleMessage");
-
-// Function to load notifications on page refresh
-function loadNotifications() {
-  notificationToggleMessage.innerHTML = ""; // Clear previous content
-  notifications.forEach((notification, index) => {
-    createNotificationElement(notification, index);
-  });
-  
-  // Update the notification count
-  updateNotificationCount();
-}
-
-// Function to send a new notification
-function sendNotification(sender, message, link) {
-  // Check if the notification already exists
-  const exists = notifications.some(
-    (n) => n.sender === sender && n.message === message && n.link === link
-  );
-  
-  if (!exists) {
-    // Add the new notification to the array
-    const newNotification = { sender, message, link, read: false };
-    notifications.push(newNotification);
-    
-    // Save to localStorage
-    saveNotifications();
-    
-    // Create the notification element
-    createNotificationElement(newNotification, notifications.length - 1);
-    
-    // Update the notification count
-    updateNotificationCount();
-  }
-}
-
-// Function to create a notification element
-function createNotificationElement(notification, index) {
-  const notificationMessage = document.createElement("div");
-  notificationMessage.className = "notificationMessage";
-  notificationMessage.style.display = "flex";
-  notificationMessage.style.justifyContent = "space-between";
-  
-  notificationMessage.innerHTML = `
-    <div id="details">
-      <p id="senderDetails">${notification.sender}</p>
-      <p id="message">${notification.message}</p>
-      ${
-        notification.link
-          ? `<a style="text-decoration: underline; font-size: 12px; color: #7973FF; font-style: italic;" href="${notification.link}">
-              Our Services
-            </a>`
-          : ""
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    try {
+      // 🔐 Fetch session ID from Firestore
+      const sessionId = await retrieveSessionId(user.uid);
+      if (!sessionId) {
+        customAlert("Your session has expired. Redirecting to login...");
+        setTimeout(() => {
+          window.location.href = "/login/login.html";
+        }, 3000);
+        return;
       }
-    </div>
-    <div id="notificationColor" style="background-color: ${
-      notification.read ? "transparent" : "#8697ca"
-    }; width: 15px; height: 15px; border-radius: 50%;"></div>
-  `;
-  
-  // Add click event to mark notification as read
-  notificationMessage.addEventListener("click", () => markAsRead(index));
-  
-  // Append the notification to the container
-  notificationToggleMessage.appendChild(notificationMessage);
-}
-
-// Function to mark a notification as read
-function markAsRead(index) {
-  const notificationElement = notificationToggleMessage.children[index];
-  const notificationColor = notificationElement.querySelector("#notificationColor");
-  
-  // Hide the notification color indicator
-  if (notificationColor) notificationColor.style.backgroundColor = "transparent";
-  
-  // Mark the notification as read
-  if (!notifications[index].read) {
-    notifications[index].read = true;
-    
-    // Save the updated notifications to localStorage
-    saveNotifications();
-    
-    // Update the notification count
-    updateNotificationCount();
+      
+      // 📊 Count user recordings (UI badge, etc.)
+      await countUserRecordings(user.uid);
+      
+      // 🎙️ Save recording logic
+      saveRecordingButton.addEventListener("click", async () => {
+        if (!currentBlob) {
+          customAlert("No recording found to save.");
+          return;
+        }
+        
+        const recordingName = recordingNameInput.value.trim() || `recording-${Date.now()}`;
+        pageLoader.style.display = "grid";
+        
+        try {
+          const filePath = `${FirebasePaths.userStoragePath(user.uid)}/${recordingName}.mp3`;
+          const recordingRef = storageRef(storage, filePath);
+          
+          const snapshot = await uploadBytes(recordingRef, currentBlob);
+          const downloadURL = await getDownloadURL(snapshot.ref);
+          
+          await addDoc(
+            collection(firestoreDb, FirebasePaths.userRecordingsCollection(user.uid)),
+            {
+              name: recordingName,
+              url: downloadURL,
+              timestamp: serverTimestamp(),
+            }
+          );
+          
+          customAlert(`File saved as: ${recordingName}.mp3`);
+          await countUserRecordings(user.uid);
+          
+          downloadContainer.style.top = "-100%";
+          downloadContainer.style.height = "0%";
+        } catch (error) {
+          console.error("Error saving recording:", error.message);
+          customAlert(`Error saving file: ${error.message}`);
+        } finally {
+          pageLoader.style.display = "none";
+        }
+      });
+      
+    } catch (error) {
+      console.error("Error during session validation:", error);
+      customAlert("An unexpected error occurred. Redirecting...");
+      setTimeout(() => {
+        window.location.href = "/login/login.html";
+      }, 3000);
+    }
+  } else {
+    // 🚪 User is not authenticated — redirect to login
+    customAlert("You are not logged in. Redirecting...");
+    setTimeout(() => {
+      window.location.href = "/login/login.html";
+    }, 3000);
   }
-}
-
-// Function to update the notification count dynamically
-function updateNotificationCount() {
-  const insightCount = document.querySelector("#insightCount");
-  const unreadCount = notifications.filter((notification) => !notification.read).length;
-  
-  // Update count badges
-  notificationsCount.textContent = unreadCount;
-  insightCount.textContent = unreadCount;
-  
-  // Hide badge if no unread notifications
-  notificationsCount.style.display = unreadCount > 0 ? "flex" : "none";
-}
-
-// Function to save notifications to localStorage
-function saveNotifications() {
-  localStorage.setItem("notifications", JSON.stringify(notifications));
-}
-
-// Load notifications on page refresh
-loadNotifications();
-
-// Example notifications (for demonstration purposes)
-sendNotification(
-  "SpeechScribe",
-  "Our website is currently under development, but you’re welcome to explore and use the available features as we work to bring you the full experience. Thank you for being an early user!",
-  "/HTML/navigation/about_website.html"
-);
+});

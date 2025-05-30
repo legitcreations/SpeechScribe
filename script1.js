@@ -2,10 +2,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 import { getDatabase, ref as databaseRef, get, set } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js"; // Import Firebase Database
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
+import { getStorage, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
 
 import { collection, getFirestore, getDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
-
+import { FirebasePaths } from '/utils/firebasePaths.js'; // adjust path as needed
 
 // Firebase configuration
 const firebaseConfig = {
@@ -20,66 +20,87 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const firestoreDb=getFirestore(app)
-const storage = getStorage(app);
+const firestoreDb = getFirestore(app)
 const db = getDatabase(app);
 
-function decryptData(encryptedData, secretKey) {
-  const iv = CryptoJS.enc.Hex.parse(encryptedData.substring(0, 32)); // Extract IV from the first 32 hex characters
-  const encrypted = encryptedData.substring(32); // Extract the actual encrypted data
+const alertContainer = document.querySelector(".alertContainer");
+const closeAlert = document.getElementById("closeAlert");
+const alertText = document.getElementById("alertText");
 
+function customAlert(message) {
+  alertText.innerText = message;
+  alertContainer.style.display = 'grid';
+};
+
+function decryptData(encryptedData, secretKey) {
+  const iv = CryptoJS.enc.Hex.parse(encryptedData.substring(0, 32)); // Extract IV
+  const encrypted = encryptedData.substring(32); // Extract encrypted content
+  
   const decrypted = CryptoJS.AES.decrypt(encrypted, CryptoJS.enc.Utf8.parse(secretKey), {
     iv: iv,
     mode: CryptoJS.mode.CBC,
     padding: CryptoJS.pad.Pkcs7
   });
-
-  return decrypted.toString(CryptoJS.enc.Utf8); // Return decrypted text
-}
-async function retrieveSessionId(userId) {
-  const sessionRef = doc(firestoreDb, `User_Sessions/${userId}`);
-  try {
-    const sessionDoc = await getDoc(sessionRef);
-    if (sessionDoc.exists()) {
-      return sessionDoc.data().sessionId; // Return the session ID from Firestore
-    } else {
-      return null; // No session data available
-    }
-  } catch (error) {
-    customAlert('Error retrieving session ID:', error);
-    return null; // Handle errors
-  }
+  
+  return decrypted.toString(CryptoJS.enc.Utf8);
 }
 
-async function getUserDetails(uid) {
-  const userRef = databaseRef(db, `Users_Database/${uid}`);
+async function getUserDetails(userId) {
+  const userRef = databaseRef(db, FirebasePaths.userDatabaseDoc(userId)); 
   try {
     const snapshot = await get(userRef);
     if (snapshot.exists()) {
-      return snapshot.val(); // Return user details
+      return snapshot.val(); 
     } else {
       customAlert("No data found for the user in the database.");
-      window.location.href = "/login/login.html";
+      setTimeout(() => {
+        window.location.href = "/login/login.html";
+      }, 4000);
       return null;
     }
   } catch (error) {
-    customAlert("Error fetching user details:", error);
+    console.error('Error fetching user details:', error.message);
+    customAlert(`Error fetching user details: ${error.message}`);
     return null;
   }
 }
 
-async function retrieveSecretKey(uid) {
-  const secretKeyRef = doc(firestoreDb, `Users_Encryption_Keys/${uid}`);
+async function retrieveSecretKey(userId) {
+  const secretKeyRef = doc(firestoreDb, FirebasePaths.userEncryptionDoc(userId));
+  
   try {
     const secretKeyDoc = await getDoc(secretKeyRef);
     if (secretKeyDoc.exists()) {
-      return secretKeyDoc.data().key;
-    } else {
-      customAlert("Secret key not found.");
+      const key = secretKeyDoc.data().key;
+      return key;
+    } 
+    else {
       return null;
     }
   } catch (error) {
-    customAlert("Error retrieving secret key:", error);
+    console.error("Error retrieving secret key:", error);
+    customAlert(`Error retrieving secret key: ${error.message}`);
+    return null;
+  }
+}
+
+async function retrieveSessionId(userId) {
+  const sessionRef = doc(firestoreDb, FirebasePaths.userSession(userId));
+  
+  try {
+    const sessionDoc = await getDoc(sessionRef);
+    if (sessionDoc.exists()) {
+      return sessionDoc.data().sessionId;
+    } else {
+      console.error('No session ID found');
+      setTimeout(() => {
+        window.location.href = "/login/login.html";
+      }, 3000);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error retrieving session ID:', error.message);
+    customAlert(`Error retrieving session ID: ${error.message}`);
     return null;
   }
 }
@@ -87,18 +108,20 @@ async function retrieveSecretKey(uid) {
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     const sessionId = await retrieveSessionId(user.uid);
-
-    if (sessionId) {
-      const secretKey = await retrieveSecretKey(user.uid);
-      
-      const userDetails = await getUserDetails(user.uid);
-      if (userDetails) {
-        if (userDetails.profileImage) {
-          const decryptedImage = decryptData(userDetails.profileImage, secretKey);
-          document.getElementById("profilePhoto").style.backgroundImage = `url(${decryptedImage})`;
-        }
-      }
-    } 
+    const secretKey = await retrieveSecretKey(user.uid);
+    const userDetails = await getUserDetails(user.uid);
+    
+    if (!sessionId || !secretKey || !userDetails) {
+      customAlert("Session expired or incomplete data. Redirecting...");
+      setTimeout(() => {
+        window.location.href = "/login/login.html";
+      }, 4000);
+      return;
+    }
+    
+    if (userDetails.profileImage) {
+      const decryptedImage = decryptData(userDetails.profileImage, secretKey);
+      document.getElementById("profilePhoto").style.backgroundImage = `url(${decryptedImage})`;
+    }
   }
-
 });

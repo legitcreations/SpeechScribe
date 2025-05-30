@@ -14,16 +14,31 @@
     <h2>SpeechScribe Studio</h2>
     <i onclick="openDialogue()" class="fas fa-plus"></i>
   </header>
-  <div id="voiceDialogue">
-    <div id="startNewSession">
-      <i class="fas fa-plus"></i>
-      <p>Start New Session</p>
+  
+  <section class="startSession">
+    
+    <div class="startSessionContainer">
+      <h2>Build Voice</h2>
+      
+      <div class="build_boxes_container">
+        <div id="selectable-box" data-type="text">
+          <p class="box_header">Text to Speech</p>
+          <span>Type or paste any text below to convert it into a realistic human or AI-generated voice sample.</span>
+        </div>
+        <div id="selectable-box" data-type="fill">
+          <p class="box_header">Upload Voice Sample</p>
+          <span>Record and upload your voice to train our AI. It will learn your unique tone, rhythm, and speaking style to personalize your text-to-speech output.</span>
+      </div>
     </div>
-    <div onclick="synthesizeVoice()" id="test">
-      <i class="fas fa-play"></i>
-      <p>Test Sample</p>
+    
+    <div class="buttons">
+      <button id="cancel">Cancel</button>
+      <button disabled id="next">Next</button>
     </div>
-  </div>
+    </div>
+    
+  </section>
+  
   <div class="ttsSampleContainer">
     <div id="testSounds">
       <div id="neutral_male" style="background-image: url('/img/male.png')">
@@ -76,4 +91,5 @@
   
   <script src="/JAVASCRIPT/vox.js"></script>
 </body>
+
 </html>

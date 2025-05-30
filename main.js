@@ -19,7 +19,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 import {
 	getStorage,
-	ref,
+	ref as storageRef,
 	uploadBytes,
 	getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
@@ -28,7 +28,7 @@ import {
 	ref as databaseRef,
 	get
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
-
+import { FirebasePaths } from '../utils/firebasePaths.js'
 
 const firebaseConfig = {
 	apiKey: "AIzaSyApeufdnAhQCnsYljYchPjrh8W8Wf_YOtk",
@@ -86,7 +86,6 @@ function customAlert(message) {
 	alertText.innerText = message;
 	alertContainer.style.display = 'grid';
 };
-const user = auth.currentUser;
 window.addEventListener("DOMContentLoaded", () => {
 	
 	const searchRecordingContainer = document.querySelector(".searchRecordingContainer")
@@ -94,13 +93,11 @@ window.addEventListener("DOMContentLoaded", () => {
 		window.location.href = "/HTML/recordings.html?search=1";
 	})
 	
-	async function countUserRecordings() {
-		if (!auth.currentUser) return;
-		
-		const thisUserRecordingsRef = collection(firestoreDb, 'Users_Recordings', auth.currentUser.uid, 'recordings');
+	async function countUserRecordings(uid) {
+		const recordingsRef = collection(firestoreDb, FirebasePaths.userRecordingsCollection(uid));
 		
 		try {
-			const querySnapshot = await getDocs(thisUserRecordingsRef);
+			const querySnapshot = await getDocs(recordingsRef);
 			const count = querySnapshot.size;
 			const recordedFilesCountElement = document.getElementById("recordedFilesCount");
 			
@@ -115,7 +112,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	}
 	
 	async function retrieveSessionId(userId) {
-		const sessionRef = doc(firestoreDb, "User_Sessions", userId);
+		const sessionRef = doc(firestoreDb, FirebasePaths.userSession(userId));
 		try {
 			const sessionDoc = await getDoc(sessionRef);
 			if (sessionDoc.exists()) {
@@ -132,94 +129,76 @@ window.addEventListener("DOMContentLoaded", () => {
 	}
 	
 	onAuthStateChanged(auth, async (user) => {
-		if (user) {
-			// Authenticated user flow
-			try {
-				const sessionId = await retrieveSessionId(user.uid);
-				if (!sessionId) {
-					return;
-				}
-				countUserRecordings();
-				
-				saveRecordingButton.addEventListener("click", async () => {
-					if (!currentBlob) {
-						customAlert("No recording found to save.");
-						return;
-					}
-					
-					const recordingName = recordingNameInput.value.trim() || `recording-${Date.now()}`;
-					pageLoader.style.display = "grid";
-					
-					try {
-						const recordingRef = ref(storage, `Users_Recordings/${user.uid}/${recordingName}.mp3`);
-						const snapshot = await uploadBytes(recordingRef, currentBlob);
-						const downloadURL = await getDownloadURL(snapshot.ref);
-						
-						await addDoc(collection(firestoreDb, "Users_Recordings", user.uid, "recordings"), {
-							name: recordingName,
-							url: downloadURL,
-							timestamp: serverTimestamp(),
-						});
-						
-						customAlert(`File saved as: ${recordingName}.mp3`);
-						countUserRecordings();
-						
-						downloadContainer.style.top = "-100%";
-						downloadContainer.style.height = "0%";
-					} catch (error) {
-						console.error("Error saving recording:", error);
-						customAlert(`Error saving file: ${error.message}`);
-					} finally {
-						pageLoader.style.display = "none";
-					}
-				});
-				
-				cancelRecordingButton.addEventListener("click", () => {
-					downloadContainer.style.top = "-100%";
-					downloadContainer.style.height = "0%";
-					recordingNameInput.value = '';
-					customAlert("Recording was canceled.");
-				});
-			} catch (error) {
-				console.error("Error in onAuthStateChanged:", error);
-				customAlert("An unexpected error occurred. Please try again.");
+	if (user) {
+		try {
+			// Fetch session ID from Firestore
+			const sessionId = await retrieveSessionId(user.uid);
+			if (!sessionId) {
+				customAlert("Your session has expired. Redirecting to login...");
 				setTimeout(() => {
 					window.location.href = "/login/login.html";
 				}, 3000);
+				return;
 			}
-		}
-		else {
-			// Non-authenticated user flow
-			const sessionIdCookie = document.cookie.split('; ').find(row => row.startsWith('sessionId='));
 			
-			if (sessionIdCookie) {
-				const sessionId = sessionIdCookie.split('=')[1];
-				try {
-					const userSessionDoc = await getDoc(doc(firestoreDb, "User_Sessions", sessionId));
-					if (userSessionDoc.exists()) {
-						customAlert("Session found. Please log in to continue.");
-					} else {
-						customAlert("Session is invalid or expired. Please log in again.");
-					}
-					setTimeout(() => {
-						window.location.href = "/login/login.html";
-					}, 3000);
-				} catch (error) {
-					console.error("Error in session check:", error);
-					customAlert("Error verifying session. Redirecting to login...");
-					setTimeout(() => {
-						window.location.href = "/login/login.html";
-					}, 3000);
+			// Count user recordings (UI badge, etc.)
+			await countUserRecordings(user.uid);
+			
+			// Save recording logic
+			saveRecordingButton.addEventListener("click", async () => {
+				if (!currentBlob) {
+					customAlert("No recording found to save.");
+					return;
 				}
-			} else {
-				customAlert("Welcome! Let's get you started. Redirecting to signup...");
-				setTimeout(() => {
-					window.location.href = "/join/signup.html";
-				}, 3000);
-			}
+				
+				const recordingName = recordingNameInput.value.trim() || `recording-${Date.now()}`;
+				pageLoader.style.display = "grid";
+				
+				try {
+					const filePath = `${FirebasePaths.userStoragePath(user.uid)}/${recordingName}.mp3`;
+					const recordingRef = storageRef(storage, filePath);
+					
+					const snapshot = await uploadBytes(recordingRef, currentBlob);
+					const downloadURL = await getDownloadURL(snapshot.ref);
+					
+					await addDoc(
+						collection(firestoreDb, FirebasePaths.userRecordingsCollection(user.uid)),
+						{
+							name: recordingName,
+							url: downloadURL,
+							timestamp: serverTimestamp(),
+						}
+					);
+					
+					customAlert(`File saved as: ${recordingName}.mp3`);
+					await countUserRecordings(user.uid);
+					
+					downloadContainer.style.top = "-100%";
+					downloadContainer.style.height = "0%";
+				} catch (error) {
+					console.error("Error saving recording:", error.message);
+					customAlert(`Error saving file: ${error.message}`);
+				} finally {
+					pageLoader.style.display = "none";
+				}
+			});
+			
+		} catch (error) {
+			console.error("Error during session validation:", error);
+			customAlert("An unexpected error occurred. Redirecting...");
+			setTimeout(() => {
+				window.location.href = "/login/login.html";
+			}, 3000);
 		}
-	});
-	
+	} else {
+		// User is not authenticated — redirect to login
+		customAlert("You are not logged in. Redirecting...");
+		setTimeout(() => {
+			window.location.href = "/login/login.html";
+		}, 3000);
+	}
+});
+
 	let mediaRecorder, isRecording = false,
 		isPaused = false,
 		timerInterval;
@@ -301,7 +280,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		
 		if (isRecording || isPaused) {
 			customAlert("Recording already in progress or paused. Cannot start a new one.");
-			return; // Block if recording is already active or paused
+			return; 
 		}
 		
 		function startRecording() {
@@ -370,12 +349,10 @@ window.addEventListener("DOMContentLoaded", () => {
 				}
 			}
 			
-			// Stop the stream tracks if available
 			if (mediaRecorder?.stream) {
 				mediaRecorder.stream.getTracks().forEach(track => track.stop());
 			}
 			
-			// Stop recognition
 			if (recognition) {
 				try {
 					recognition.stop();
@@ -388,8 +365,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			isPaused = false;
 			
 			stopTimer();
-			stopFrequencyBars(); // In case this function exists
-			
+			stopFrequencyBars(); 
 			updateButtonStates();
 			
 			canvas.style.visibility = "hidden";

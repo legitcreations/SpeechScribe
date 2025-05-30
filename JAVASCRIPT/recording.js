@@ -146,6 +146,7 @@ function searchRecordings() {
       p.id = "noResultsMessage";
 
       p.textContent = "No recordings found for your search.";
+      p.style.color ="white"
       p.classList.add("searchQuery");
       recordingsContainer.appendChild(p);
     }
