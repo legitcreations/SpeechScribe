@@ -38,6 +38,7 @@ function decryptData(encryptedData, secretKey) {
   }
 }
 
+// ✅ Signup Route
 router.post('/signup', async (req, res) => {
   const { username, email, tel, password, recaptchaToken } = req.body;
   
@@ -92,7 +93,7 @@ router.post('/signup', async (req, res) => {
     const uid = userRecord.uid;
     
     // ✅ 6. Store encrypted data in Realtime DB
-    await realtimeDB.ref(`users/${uid}`).set({
+    await realtimeDB.ref(`Users Database/${uid}`).set({
       username: encryptedUsername,
       email: encryptedEmail,
       tel: encryptedTel,
@@ -100,11 +101,10 @@ router.post('/signup', async (req, res) => {
     });
     
     // ✅ 7. Store AES key in Firestore
-    await firestore.collection("Users_Encryption_Keys").doc(uid).set({
+    await firestore.collection("Users Encryption Keys").doc(uid).set({
       encryptionKey,
       createdAt: admin.firestore.FieldValue.serverTimestamp()
     });
-    
     
     return res.status(201).json({ success: true, message: 'User created and data encrypted.' });
     
