@@ -15,8 +15,7 @@ app.use(express.json());
 // Routes
 app.use('/auth', authRoutes);
 
-// Serve frontend static files
-app.use(express.static(path.resolve(__dirname, '../SpeechScribe_Frontend/Public')));
+app.use(express.static(path.resolve(__dirname, '..')));
 
 // Root route
 app.get('/', (req, res) => {
