@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="Manage your profile and recordings with SpeechScribe, the ultimate voice transcription app.">
+  <meta name="keywords" content="SpeechScribe, voice transcription, profile, recordings, audio, app">
+  <meta name="author" content="Legitcreations">
+  <meta name="robots" content="index, follow">
+  <meta property="og:image" content="https://speechscribeapp.web.app/logo.jpg" />
+  <meta property="og:url" content="https://speechscribeapp.web.app/login" />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://speechscribeapp.web.app/profile" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+  <title>Profile | SpeechScribe</title>
+  <link rel="stylesheet" href="/SpeechScribe_Frontend/src/styles/profile.css">
+</head>
+
+<body>
+  <header class="settingsHeader">
+    <p class="headerText">
+      Profile
+    </p>
+  </header>
+  <div class="alertContainer">
+    <svg id="closeAlert" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
+      <path fill="white"
+        d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V7h16l.001 12H4z" />
+      <path fill="white"
+        d="m15.707 10.707-1.414-1.414L12 11.586 9.707 9.293l-1.414 1.414L10.586 13l-2.293 2.293 1.414 1.414L12 14.414l2.293 2.293 1.414-1.414L13.414 13z" />
+    </svg>
+    <div class="alertBox">
+      <img src="https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Falert.png?alt=media&token=eec9e645-2053-4b91-b9cb-3ee178b95586" alt="alertImg" loading="eager" fetch-priority="high"/>
+      <p id="alerHeader">
+        ALERT
+      </p>
+      <p id="alertText" style="color: white; font-weight: 400;font-size:14px;"></p>
+    </div>
+  </div>
+  <div class="profileContainer">
+    <div class="userAbout">
+      <p class="header">
+        ABOUT ME
+      </p>
+      <p id="bio"></p>
+    </div>
+    <div id="spinnerBackground">
+      <img src="https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Flogo.jpg?alt=media&token=9c7e9d4b-c37d-49d6-934a-aa872f0df124" alt="logo.jpg" loading="eager" fetch-priority="high">
+    </div>
+    <div class="userImage">
+      <i id="profilePhotoIcon" class="fas fa-fade fa-image" title="Upload Profile Photo" style="cursor: pointer;"></i>
+      <input type="file" id="fileInput" accept="image/*" style="display: none;"> 
+    </div>
+    <div class="userDetails">
+      <p class="header">
+        DETAILS
+      </p>
+      <div class="userAbout">
+        <div>
+          <i class="fa fa-envelope"></i>
+          <p id="email"></p>
+        </div>
+        <div>
+          <i class="fa fa-phone"></i>
+          <p id="tel"></p>
+        </div>
+        <div>
+          <i class="fa fa-user-circle"></i>
+          <p id="username"></p>
+        </div>
+        <div>
+          <i class="fa fa-mars"></i>
+          <p id="age"></p>
+        </div>
+        <div>
+          <i class="fa fa-location-pin"></i>
+          <p id="address"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section id="editTab">
+    <i id="closeEditTab" class="fas fa-times"></i>
+    <div>
+      <input id="inputId" type="text" placeholder="type here...">
+      <button id="saveFileNameButton">Save</button>
+    </div>
+  </section>
+  <script type="module" src="/SpeechScribe_Frontend/src/scripts/profile.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+</body>
+
+</html>

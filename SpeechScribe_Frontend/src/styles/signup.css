@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+
+* {
+  padding: 0;
+  font-family: "Fredoka", sans-serif;
+  margin: 0;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  transition: .5s linear 0s;
+  color: #000000;
+  text-decoration: none;
+}
+::-webkit-scrollbar {
+  width:0px; /* Width of scrollbar */
+}
+/* color syntax */
+:root {
+    --faintBlue: #adbbda5e;
+    --borderLineWidth: 1px;
+    --borderRadius: 10px;
+    --dimBlue: #4f2fe8fc;
+    --lightBlue: #7091e6;
+    --darkBlue: #8697ca;
+    --headerBackground:#262736;
+    --faintBlack: #6b6b6b;
+    --pageBackgroundColor: #EDE8F5;
+    --dimColor:#3c3e5a;
+    --paddingSmall: 10px;
+    --paddingBig: 20px;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  background: linear-gradient(to bottom left, #4F75F4, #DD51E8);
+  overflow: hidden;
+  place-items: center;
+}
+.background{
+  background: #00000059;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
+}
+main {
+  width: 85%;
+  height: auto;
+  display: flex;
+    background: #0000001F;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  overflow: hidden;
+  justify-content: center;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 20px;
+}
+
+header {
+  position: fixed;
+  top: 1.5rem;
+  color: white;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.signupImg img {
+  width: 9rem;
+}
+
+.header {
+  color: white;
+  display: flex;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+form {
+  display: grid;
+grid-row-gap: 16px;
+  width: 100%;
+}
+
+form div {
+  padding:18px;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  gap: 15px;
+  background: white;
+}
+
+form div input {
+  width: 100%;
+  outline: none;
+  
+  border: none;
+
+}
+
+form div i {
+  color: var(--dimBlue);
+}
+form div span{
+  background: var(--dimBlue);
+  width: 1px;
+  height: 1.5rem;
+}
+button {
+  padding: 18px;
+  border: none;
+  background: var(--dimBlue);
+  color: #fff;
+  font-size: 16px;
+  border-radius: 20px;
+}
+
+.loginLink {
+  font-size: 12px;
+  color: white;
+  display: flex;
+}
+
+a {
+  font-style: italic;
+  color: blue;
+
+}
+
+footer{
+  position: fixed;
+  bottom:15px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+}
+footer p, footer span{
+color: white;
+text-align: center;
+display: flex;
+}
+@media (min-width: 768px) {
+  main {
+    width: 70%;
+  }
+
+  form {
+    gap: 20px;
+  }
+}

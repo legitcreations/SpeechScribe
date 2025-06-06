@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Character Set & Viewport -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="theme-color" content="#3c3e5a" />
+
+  <!-- Page Title -->
+  <title>Recordings | SpeechScribe</title>
+
+  <!-- SEO Metadata -->
+  <meta name="description"
+    content="Access, manage, and play your voice recordings with SpeechScribe. Enjoy seamless transcription and playback options to maximize your recording experience." />
+  <meta name="keywords"
+    content="SpeechScribe, recordings, voice recording, playback, audio transcription, voice-to-text, speech recognition" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://speechscribeapp.web.app/HTML/recordings.html" />
+
+  <!-- Open Graph Metadata for Social Sharing -->
+  <meta property="og:title" content="Recordings | SpeechScribe" />
+  <meta property="og:description"
+    content="Manage and play your SpeechScribe voice recordings with ease. Enjoy advanced transcription and playback features." />
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Ffileplayer.png?alt=media&token=d4e7e596-06ba-4f2d-9331-5a18a4359e05" />
+  <meta property="og:url" content="https://speechscribeapp.web.app/HTML/recordings.html" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card Metadata -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Recordings | SpeechScribe" />
+  <meta name="twitter:description"
+    content="Easily access and manage your SpeechScribe voice recordings with transcription and playback options." />
+  <meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Ffileplayer.png?alt=media&token=d4e7e596-06ba-4f2d-9331-5a18a4359e05" />
+
+  <!-- Author & Verification -->
+  <meta name="author" content="Legitcreations" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/SpeechScribe_Frontend/src/styles/recording.css" />
+  <link rel="stylesheet" href="/SpeechScribe_Frontend/src/styles/fileplayer.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+</head>
+
+<body>
+  <header>
+    <h3>Recording list</h3>
+  </header>
+  <div class="alertContainer">
+    <svg id="closeAlert" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
+      <path fill="white"
+        d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V7h16l.001 12H4z" />
+      <path fill="white"
+        d="m15.707 10.707-1.414-1.414L12 11.586 9.707 9.293l-1.414 1.414L10.586 13l-2.293 2.293 1.414 1.414L12 14.414l2.293 2.293 1.414-1.414L13.414 13z" />
+    </svg>
+    <div class="alertBox">
+      <img src="https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Falert.png?alt=media&token=eec9e645-2053-4b91-b9cb-3ee178b95586" alt="alertImg" loading="eager" fetch-priority="high" />
+
+      <p id="alerHeader">ALERT</p>
+      <p id="alertText" style="font-weight: 400; font-size: 14px"></p>
+    </div>
+  </div>
+  <div id="spinnerBackground">
+    <img src="https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Flogo.jpg?alt=media&token=9c7e9d4b-c37d-49d6-934a-aa872f0df124" alt='logo' loading="eager" fetch-priority="high">
+  </div>
+  <div id="noFileIndicator">
+    <p>...Oops! there are no recordings</p>
+  </div>
+  <section class="searchRecordingContainer">
+    <i class="fa fa-magnifying-glass"></i>
+    <div></div>
+    <input id="search" type="search" placeholder="Search Recordings" />
+  </section>
+  <div id="recordings-list" class="recordingContainer">
+    <div id="recordingsDiv">
+      <i id="recordingPlayButton" class="fa-solid fa-record-vinyl"></i>
+      <div id="databaseContainer">
+        <p id="recordingName"></p>
+        <p id="recordingTime"></p>
+      </div>
+    </div>
+  </div>
+  <section id="filePlayerCover">
+    <div id="filePlayerContainer">
+      <div id="playerHeader">
+        <div id="playerHeaderIcons">
+          <i id="closePlayerContainer" class="fas fa-times"></i>
+          <i id="deleteFileFromFirebase" class="fas fa-trash"></i>
+        </div>
+        <div id="fileDetails">
+          <p id="fileNameContainer">
+            <span id="fileName"></span>
+          </p>
+          <p id="fileDate"></p>
+        </div>
+      </div>
+      <img src="https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Ffileplayer.png?alt=media&token=d4e7e596-06ba-4f2d-9331-5a18a4359e05" id="playerCanvas" loading="eager" fetch-priority="high" />
+      <div id="playerControls">
+        <div id="controlAlt">
+          <i id="shareFile" class="fas fa-share-alt"></i>
+          <p style="font-weight: 500" id="playingDuration">
+            00 : 00 : 00
+          </p>
+          <i id="downloadFile" class="fas fa-download"></i>
+        </div>
+        <div id="audioControls">
+          <i id="backwardBtn" class="fa fa-backward"></i>
+          <i class="fa fa-play"></i>
+          <i id="forwardBtn" class="fa fa-forward"></i>
+        </div>
+        <button>SpeechScribe</button>
+      </div>
+    </div>
+  </section>
+  <script type="module" src="/SpeechScribe_Frontend/src/scripts/recording.js"></script>
+</body>
+
+</html>

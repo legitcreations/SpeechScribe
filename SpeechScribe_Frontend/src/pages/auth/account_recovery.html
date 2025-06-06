@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="log in SpeechScribe to transcribe your voice recordings effortlessly. Sign up now for a seamless audio transcription experience with advanced AI technology.">
+  <meta name="keywords" content="SpeechScribe, transcription, voice recording, audio transcription, recovery forgotten password, AI transcription, speech to text">
+  <meta name="author" content="Legitcreations">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.speechscribe.com//account recovery">
+  <meta property="og:title" content="recover account | SpeechScribe">
+  <meta property="og:description" content="recover your SpeechScribe account to transcribe your voice recordings effortlessly.">
+  <meta property="og:image" content="https://www.speechscribe.com/img/logo.jpg">
+  <meta property="og:url" content="https://www.speechscribe.com//account recovery">
+  <meta property="og:type" content="website">
+  <title>reset password | SpeechScibe</title>
+  <link rel="stylesheet" href="/account recovery/account recovery.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+  <header>
+    Recover Account
+  </header>
+  <div class="background">
+
+  </div>
+  <main>
+    <form class="loginForm" id="recoverAccountForm">
+      <div class="phoneTab">
+        <i class="fa fa-phone"></i>
+        <span></span>
+        <input required placeholder="input your phone number" type="tel" name="phoneNumber" id="phoneNumber">
+      </div>
+      <button id="recoverSmsButton" type="submit">Send Code</button>
+      
+      <div id="codeVerificationSection" style="display: none;">
+        <input type="text" id="recoveryCode" placeholder="Enter recovery code" required>
+        <span></span>
+        <button id="verifyCodeButton"type="submit">Verify</button>
+      </div>
+      
+      <div class="resetPasswordSection" style="display:none;">
+        
+        <i class="fa-solid fa-lock"></i>
+        <span></span>
+        <input placeholder="Enter new password" type="password" name="password" id="password">
+      </div>
+      
+      <button style="display: none;" id="resetPasswordButton" type="submit">Reset Password</button>
+    </form>
+  </main>
+
+  <script type="module" src="/JAVASCRIPT/accountRecovery.js">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <style type="text/css" media="all">
+    @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap");
+
+    * {
+      padding: 0;
+      font-family: "Fredoka", sans-serif;
+      margin: 0;
+      font-optical-sizing: auto;
+      font-style: normal;
+      font-variation-settings: "wdth" 100;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+      box-sizing: border-box;
+      transition: 0.3s linear 0s;
+      text-decoration: none;
+      color: black;
+    }
+
+    ::-webkit-scrollbar {
+      width: 0PX;
+      /* Width of scrollbar */
+    }
+
+    /* color syntax */
+    :root {
+    --faintBlue: #adbbda5e;
+    --borderLineWidth: 1px;
+    --borderRadius: 10px;
+    --dimBlue: #4f2fe8fc;
+    --lightBlue: #7091e6;
+    --darkBlue: #8697ca;
+    --headerBackground:#262736;
+    --faintBlack: #6b6b6b;
+    --pageBackgroundColor: #EDE8F5;
+    --dimColor:#3c3e5a;
+    --paddingSmall: 10px;
+    --paddingBig: 20px;
+}
+
+    body {
+      width: 100vw;
+      height: 100Vh;
+      background: var(--dimColor);
+      display: grid;
+      place-items: center;
+    }
+
+    section {
+      width: 80%;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: auto;
+      text-align: center;
+      gap: 2rem;
+    }
+
+    .successIcon {
+      padding: 7px;
+      align-items: center;
+      border-radius: 50%;
+      background: #dbf3eb;
+
+    }
+
+    .successIcon i {
+      background: #15bf80;
+      border: 1px solid #0BA86D;
+      color: white;
+      font-size: 23px;
+      border-radius: 50%;
+      height: 2.5rem;
+      width: 2.5rem;
+      line-height: 2.5rem;
+      text-align: center;
+
+    }
+
+    .successMsg p {
+      font-weight: 500;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .successMsg span {
+      color: #FFFFFFD9;
+      font-size: 13px;
+    }
+
+    button {
+      width: 100%;
+      padding: 8px;
+      background: #00785c;
+      color: white;
+      font-weight: 500;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+  <title>feedback success</title>
+</head>
+
+<body>
+  <section class="feedbackSuccessContainer">
+    <div class="successIcon">
+      <i class="fas fa-check"></i>
+    </div>
+    <div class="successMsg">
+      <p>Your feedback has been submitted</p>
+      <span>
+        Thank you for taking the time to share your feedback with us! Your input is incredibly valuable and helps us
+        improve SpeechScribe to better meet your needs. We’re always striving to create the best experience possible,
+        and your suggestions make that possible. Thank you for being a part of the SpeechScribe community!
+      </span>
+    </div>
+    <button onclick="return goToHomepage()">Go to homepage</button>
+  </section>
+  <script>
+    function goToHomepage() {
+      window.location.href = "/SpeechScribe_Frontend/Public/index.html"
+    }
+  </script>
+</body>
+
+</html>
