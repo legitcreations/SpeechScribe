@@ -1,4 +1,7 @@
 require('dotenv').config();
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection:', reason);
+});
 
 const express = require('express');
 const path = require('path');
@@ -20,6 +23,10 @@ app.use(express.static(path.resolve(__dirname, '..')));
 // Root route
 app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../SpeechScribe_Frontend/Public/index.html'));
+});
+
+app.get('/ping', (req, res) => {
+  res.send('pong');
 });
 
 // 404 handler for unmatched routes (should be last)
