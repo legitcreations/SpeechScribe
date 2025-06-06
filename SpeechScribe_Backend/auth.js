@@ -2,9 +2,37 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const admin = require('firebase-admin');
+const { RecaptchaEnterpriseServiceClient } = require('@google-cloud/recaptcha-enterprise');
 const CryptoJS = require('crypto-js');
 require('dotenv').config();
 
+async function verifyRecaptchaEnterprise(token, expectedAction) {
+  const client = new RecaptchaEnterpriseServiceClient();
+  
+  const projectId = 'speechscribeapp'; // ✅ Your actual Google Cloud Project ID
+  const recaptchaKey = '6Lf8f1crAAAAAFdWZ4v-vjvuRi9iwNIIwBAN3uFR'; // ✅ Your site key
+  const [response] = await client.createAssessment({
+    parent: client.projectPath(projectId),
+    assessment: {
+      event: {
+        token,
+        siteKey: recaptchaKey,
+      },
+    },
+  });
+  
+  const { tokenProperties, riskAnalysis } = response;
+  
+  if (!tokenProperties.valid) {
+    throw new Error(`reCAPTCHA token invalid: ${tokenProperties.invalidReason}`);
+  }
+  
+  if (tokenProperties.action !== expectedAction) {
+    throw new Error(`Expected action '${expectedAction}' but got '${tokenProperties.action}'`);
+  }
+  
+  return riskAnalysis.score;
+}
 // Utility: Generate AES key
 function generateAESKey() {
   return CryptoJS.lib.WordArray.random(32).toString(); // 256-bit key
@@ -42,9 +70,9 @@ function decryptData(encryptedData, secretKey) {
 router.post('/signup', async (req, res) => {
   const { username, email, tel, password, recaptchaToken } = req.body;
   
-  if (!recaptchaToken) {
-    return res.status(400).json({ error: 'Missing reCAPTCHA token.' });
-  }
+  
+  if (!recaptchaToken) return res.status(400).json({ error: 'Missing reCAPTCHA token' });
+  
   
   try {
     // ✅ 1. Verify reCAPTCHA
@@ -109,8 +137,8 @@ router.post('/signup', async (req, res) => {
     return res.status(201).json({ success: true, message: 'User created and data encrypted.' });
     
   } catch (err) {
-    console.error("Signup error:", err);
-    return res.status(500).json({ error: 'Internal server error.' });
+    console.error('Signup error:', err.message);
+    return res.status(500).json({ error: 'Internal server error', details: err.message });
   }
 });
 

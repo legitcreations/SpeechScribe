@@ -47,22 +47,27 @@ signupForm.addEventListener('submit', async (e) => {
     if (!passwordPattern.test(password)) throw new Error("Password does not meet strength requirements.");
     
     // reCAPTCHA v3 execution
-    const token = await grecaptcha.execute('6LdnbFcrAAAAAHwgdOujpkl08gkk6U1i_9fKJS87', { action: 'signup' });
+    
+    grecaptcha.enterprise.ready(async () => {
+      const token = await grecaptcha.enterprise.execute('6Lf8f1crAAAAAFdWZ4v-vjvuRi9iwNIIwBAN3uFR', { action: 'signup' });
+      
+      const res = await fetch('/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username,
+          email,
+          tel,
+          password,
+          recaptchaToken: token
+        })
+      })
+    });
     
     signupStatus.textContent = "Creating your account...";
     
     // Call backend /signup
-    const res = await fetch('/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username,
-        email,
-        tel,
-        password,
-        recaptchaToken: token
-      })
-    });
+    ;
     
     const data = await res.json();
     
@@ -82,4 +87,4 @@ signupForm.addEventListener('submit', async (e) => {
   } finally {
     signupButton.disabled = false;
   }
-});
+})
