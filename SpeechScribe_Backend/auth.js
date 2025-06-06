@@ -1,38 +1,36 @@
 const express = require('express');
 const router = express.Router();
-const axios = require('axios');
 const admin = require('firebase-admin');
-const { RecaptchaEnterpriseServiceClient } = require('@google-cloud/recaptcha-enterprise');
 const CryptoJS = require('crypto-js');
+const { RecaptchaEnterpriseServiceClient } = require('@google-cloud/recaptcha-enterprise');
 require('dotenv').config();
 
+// ✅ reCAPTCHA Enterprise: Token verification
 async function verifyRecaptchaEnterprise(token, expectedAction) {
   const client = new RecaptchaEnterpriseServiceClient();
+  const projectId = 'speechscribeapp'; // your GCP Project ID
+  const siteKey = '6Lf8f1crAAAAAFdWZ4v-vjvuRi9iwNIIwBAN3uFR'; // your Site Key
   
-  const projectId = 'speechscribeapp'; // ✅ Your actual Google Cloud Project ID
-  const recaptchaKey = '6Lf8f1crAAAAAFdWZ4v-vjvuRi9iwNIIwBAN3uFR'; // ✅ Your site key
   const [response] = await client.createAssessment({
     parent: client.projectPath(projectId),
     assessment: {
-      event: {
-        token,
-        siteKey: recaptchaKey,
-      },
+      event: { token, siteKey },
     },
   });
   
   const { tokenProperties, riskAnalysis } = response;
   
   if (!tokenProperties.valid) {
-    throw new Error(`reCAPTCHA token invalid: ${tokenProperties.invalidReason}`);
+    throw new Error(`Invalid reCAPTCHA token: ${tokenProperties.invalidReason}`);
   }
   
   if (tokenProperties.action !== expectedAction) {
-    throw new Error(`Expected action '${expectedAction}' but got '${tokenProperties.action}'`);
+    throw new Error(`reCAPTCHA action mismatch. Expected '${expectedAction}' but got '${tokenProperties.action}'`);
   }
   
   return riskAnalysis.score;
 }
+
 // Utility: Generate AES key
 function generateAESKey() {
   return CryptoJS.lib.WordArray.random(32).toString(); // 256-bit key
@@ -42,75 +40,50 @@ function generateAESKey() {
 function encryptData(data, secretKey) {
   const iv = CryptoJS.lib.WordArray.random(16);
   const encrypted = CryptoJS.AES.encrypt(data, CryptoJS.enc.Utf8.parse(secretKey), {
-    iv: iv,
+    iv,
     mode: CryptoJS.mode.CBC,
     padding: CryptoJS.pad.Pkcs7
   });
-  return iv.toString() + encrypted.toString(); // hex IV + base64 ciphertext
+  return iv.toString() + encrypted.toString(); // IV (hex) + ciphertext (base64)
 }
 
-// Utility: Decrypt (optional for testing)
-function decryptData(encryptedData, secretKey) {
-  const iv = CryptoJS.enc.Hex.parse(encryptedData.substring(0, 32));
-  const encrypted = encryptedData.substring(32);
-  try {
-    const decrypted = CryptoJS.AES.decrypt(encrypted, CryptoJS.enc.Utf8.parse(secretKey), {
-      iv: iv,
-      mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.Pkcs7
-    }).toString(CryptoJS.enc.Utf8);
-    return decrypted;
-  } catch (error) {
-    console.error("Decryption failed:", error.message);
-    return null;
-  }
-}
-
-// ✅ Signup Route
+// Signup Route
 router.post('/signup', async (req, res) => {
   const { username, email, tel, password, recaptchaToken } = req.body;
   
-  
-  if (!recaptchaToken) return res.status(400).json({ error: 'Missing reCAPTCHA token' });
-  
+  if (!recaptchaToken) {
+    return res.status(400).json({ error: 'Missing reCAPTCHA token' });
+  }
   
   try {
-    // ✅ 1. Verify reCAPTCHA
-    const verifyURL = `https://www.google.com/recaptcha/api/siteverify`;
-    const params = new URLSearchParams({
-      secret: process.env.RECAPTCHA_SECRET_KEY,
-      response: recaptchaToken
-    });
-    
-    const { data } = await axios.post(verifyURL, params);
-    if (!data.success || data.score < 0.5 || data.action !== 'signup') {
-      return res.status(403).json({ error: 'Failed reCAPTCHA verification.', score: data.score });
+    // ✅ Step 1: Verify reCAPTCHA Enterprise
+    const score = await verifyRecaptchaEnterprise(recaptchaToken, 'signup');
+    if (score < 0.5) {
+      return res.status(403).json({ error: 'reCAPTCHA verification failed.', score });
     }
     
-    // ✅ 2. Check if user exists by username or tel
+    // ✅ Step 2: Check Firestore for username or tel
     const firestore = admin.firestore();
     const realtimeDB = admin.database();
-    const usersRef = firestore.collection('users');
+    const usersRef = firestore.collection('User Database');
     
-    const usernameCheck = await usersRef.where('username', '==', username).get();
-    if (!usernameCheck.empty) {
+    const usernameTaken = !(await usersRef.where('username', '==', username).get()).empty;
+    if (usernameTaken) {
       return res.status(409).json({ error: 'Username already taken.' });
     }
     
-    const telCheck = await usersRef.where('tel', '==', tel).get();
-    if (!telCheck.empty) {
+    const telTaken = !(await usersRef.where('tel', '==', tel).get()).empty;
+    if (telTaken) {
       return res.status(409).json({ error: 'Phone number already in use.' });
     }
     
-    // ✅ 3. Generate AES key
+    // ✅ Step 3: Encrypt data
     const encryptionKey = generateAESKey();
-    
-    // ✅ 4. Encrypt user details
     const encryptedUsername = encryptData(username, encryptionKey);
     const encryptedEmail = encryptData(email, encryptionKey);
     const encryptedTel = encryptData(tel, encryptionKey);
     
-    // ✅ 5. Create Firebase Auth user
+    // ✅ Step 4: Create Firebase Auth user
     const userRecord = await admin.auth().createUser({
       email,
       password,
@@ -120,7 +93,7 @@ router.post('/signup', async (req, res) => {
     
     const uid = userRecord.uid;
     
-    // ✅ 6. Store encrypted data in Realtime DB
+    // ✅ Step 5: Store encrypted data in Realtime DB
     await realtimeDB.ref(`Users Database/${uid}`).set({
       username: encryptedUsername,
       email: encryptedEmail,
@@ -128,7 +101,7 @@ router.post('/signup', async (req, res) => {
       signupDate: new Date().toISOString(),
     });
     
-    // ✅ 7. Store AES key in Firestore
+    // ✅ Step 6: Store encryption key in Firestore
     await firestore.collection("Users Encryption Keys").doc(uid).set({
       encryptionKey,
       createdAt: admin.firestore.FieldValue.serverTimestamp()
