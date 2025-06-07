@@ -1,0 +1,381 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+
+* {
+  padding: 0;
+  font-family: "Fredoka", sans-serif;
+  margin: 0;
+  font-optical-sizing: auto;
+  font-style: normal;
+  list-style: none;
+  font-variation-settings:
+    "wdth" 100;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  transition: .3s ease 0s;
+  text-decoration: none;
+  color: #000000;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  /* Width of scrollbar */
+}
+
+:root {
+    --faintBlue: #adbbda5e;
+    --borderLineWidth: 1px;
+    --borderRadius: 10px;
+    --dimBlue: #4f2fe8fc;
+    --lightBlue: #7091e6;
+    --darkBlue: #8697ca;
+    --headerBackground:#262736;
+    --faintBlack: #6b6b6b;
+    --pageBackgroundColor: #EDE8F5;
+    --dimColor:#3c3e5a;
+    --paddingSmall: 10px;
+    --paddingBig: 20px;
+}
+
+body {
+  background-color: var(--dimColor);
+  display: block;
+}
+
+header {
+  padding: var(--paddingSmall);
+  width: 100%;
+  background: var(--headerBackground);
+  padding: var(--paddingBig);
+  display: flex;
+  justify-content: center;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-weight: 500;
+  z-index: 1;
+  align-items:center;
+}
+
+.headerText {
+  color: Whitesmoke;
+  font-size:1.5rem;
+}
+
+.profileContainer {
+  padding: var(--paddingSmall);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center
+}
+
+.header {
+  color: #FFFFFFA8;
+  font-weight: 600;
+  font-size: 22px;
+  width: 100%;
+}
+
+.userAbout,
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  width: 100%;
+}
+
+#bio {
+  line-height: 25px;
+  color: white;
+  font-size: 18px;
+}
+
+.userDetails div,
+#bio {
+  display: grid;
+  cursor: pointer;
+  grid-row-gap: 12px;
+  padding: 10px;
+  
+}
+
+.userImage {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 15rem;
+  height: 15rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.userImage i {
+  color: white;
+}
+
+.userAbout div {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.userAbout i {
+  font-size: 24px;
+  background: #FFFFFFB8;
+  text-align: center;
+  width: 3rem;
+  height: 3rem;
+  align-items: center;
+  line-height: 3rem;
+  color: var(--dimColor);
+  border-radius: 50%;
+  
+}
+.userAbout div p{
+  color: white;
+  font-size:16px;
+}
+
+#spinnerBackground {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000000BA;
+  z-index: 3;
+}
+
+#spinnerBackground img {
+  width: 5rem;
+  border-radius: 50%;
+  animation: width .4s ease-in-out infinite;
+}
+
+@keyframes width {
+  0% {
+    width: 5rem;
+  }
+  
+  50% {
+    width: 7rem;
+  }
+  
+  100% {
+    width: 5rem;
+  }
+}
+
+.alertContainer {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 4;
+  left: 0;
+  background: #00000085;
+  display: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  
+}
+
+#closeAlert {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+
+.alertBox {
+  width: auto;
+  display: flex;
+  place-self: center;
+  gap: 5px;
+  overflow: hidden;
+  max-width: 13rem;
+  padding: 15px;
+  align-items: center;
+  flex-direction: column;
+  background: var(--dimColor);
+  text-align: center;
+  border-radius: 15px;
+}
+
+.alertBox img {
+  width: 7rem;
+}
+
+.alertBox p {
+  color: white;
+  max-width: 8.8rem;
+  font-weight: 600;
+}
+
+#svgDiv {
+  padding: 15px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 5px 10px #FFFFFF, 0 -3px 10px #0000001C;
+  position: absolute;
+  top: -35px;
+}
+
+#header {
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+}
+
+#bodyText {
+  font-size: 12px;
+  text-align: justify;
+  color: #4E4E4E;
+  line-height: 16px;
+}
+
+#deleteButton {
+  display: flex;
+  justify-content: right;
+  gap: 10px;
+  width: 100%;
+  cursor: pointer;
+  
+}
+
+#deleteButton button {
+  padding: 7px 17px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+}
+
+#deleteButton button:nth-child(2) {
+  background: red;
+  color: white;
+  border-radius: 10px;
+}
+
+#editTab {
+  display: none;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--headerBackground);
+  z-index: 2;
+}
+
+#editTab div {
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFFB8;
+  border-radius: 30px;
+  padding: 20px;
+  gap: 20px;
+  overflow: hidden;
+  width: 75%;
+  align-items: center;
+}
+
+#editTab i {
+  color: #464646;
+  padding: 15px 20px;
+  background: #FFFFFFB8;
+  border-radius: 30px;
+  font-size: 14px;
+  left: 10px;
+  top: 10px;
+  position: absolute;
+  
+}
+
+#inputId {
+  width: 100%;
+  font-size: 16px;
+  padding: 15px;
+  outline: none;
+  border: none;
+  border-radius: 30px;
+}
+
+#saveFileNameButton {
+  padding: 16px 20px;
+  border: none;
+  border-radius: 20px;
+  background: var(--dimBlue);
+  color: #fff;
+  font-size: 16px;
+}
+
+@media (min-width:768px) {
+  body {
+    display: block;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .profileContainer {
+    display: flex;
+    gap: 2px;
+    height: inherit;
+    flex-direction: row;
+    padding: 20px;
+  }
+  
+  header {
+    font-size: 1.8rem;
+  }
+  
+  .header {
+    font-size: 1.8rem;
+  }
+  
+  .userImage {
+    display: flex;
+    width: 45rem;
+  }
+  
+  .userDetails div,
+  #bio {
+    background: none;
+    font-size: 1rem;
+  }
+  
+  #bio {
+    line-height: 35px;
+  }
+  
+  .userAbout i {
+    width: 3.5rem;
+    height: 3.5rem;
+    line-height: 3.5rem;
+  }
+  
+  #header {
+    font-size: 20px;
+  }
+  
+  #bodyText {
+    font-size: 16px;
+    line-height: 25px;
+  }
+  
+  #deleteButton button {
+    font-size: 19px;
+    padding: 10px 20px;
+  }
+  
+  #deleteButton button:nth-child(2) {
+    border-radius: 15px;
+  }
+}

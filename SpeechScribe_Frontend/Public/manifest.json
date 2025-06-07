@@ -1,0 +1,29 @@
+{
+  "name": "SpeechScribe",
+  "short_name": "Scribe",
+  "description": "A powerful voice-to-text transcription web app with advanced recording and playback features.",
+  "start_url": "/SpeechScribe_Frontend/Public/landing.html",
+  
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/img/logo.jpg",
+      "sizes": "500x500",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/img/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    }
+  ]
+}

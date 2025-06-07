@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/SpeechScribe_Frontend/src/styles/vov.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <title>SpeechScribe Studio</title>
+</head>
+
+<body>
+  <header>
+    <h2>SpeechScribe Studio</h2>
+    <i onclick="openDialogue()" class="fas fa-plus" style="cursor:pointer;"></i>
+  </header>
+  
+  <section class="startSession" style="display:none;">
+    <div class="startSessionContainer">
+      <h2>Build Voice</h2>
+      
+      <div class="build_boxes_container">
+        <div class="selectable-box" data-type="text">
+          <p class="box_header">Text to Speech</p>
+          <span>Type or paste any text below to convert it into a realistic human or AI-generated voice sample.</span>
+        </div>
+        <div class="selectable-box" data-type="fill">
+          <p class="box_header">Upload Voice Sample</p>
+          <span>Record and upload your voice to train our AI. It will learn your unique tone, rhythm, and speaking style to personalize your text-to-speech output.</span>
+        </div>
+      </div>
+      
+      <div class="buttons">
+        <button id="cancel">Cancel</button>
+        <button disabled id="next">Next</button>
+      </div>
+    </div>
+  </section>
+  
+  <div class="ttsSampleContainer">
+    <div id="testSounds">
+      <div id="neutral_male" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Fmale.png?alt=media&token=ab14d2d2-3513-4102-b9c5-7f569c69e0c1')">
+        <p>Neutral male</p>
+      </div>
+      <div id="child_girl" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Fgirl.png?alt=media&token=4e7d94df-8370-4831-8ce2-ff4d06b15460')">
+        <p>Little girl</p>
+      </div>
+      <div id="elderly_man" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Foldman.png?alt=media&token=85f99e5e-0031-4eaf-a6fc-72015a1db2be')">
+        <p>Old man</p>
+      </div>
+      <div id="robot_ai" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Frobot.png?alt=media&token=409bc16a-6131-4506-9b2b-cb9fb82598d5')">
+        <p>Robot AI</p>
+      </div>
+      <div id="robot_mechanical" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Frobot2.png?alt=media&token=5cbed1f6-d8d5-454b-9e9d-79d7553e7372')">
+        <p>Robot mechanical</p>
+      </div>
+      <div id="villian_deep" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Fvillian_deep.png?alt=media&token=663e79d9-837d-4a65-9c7e-2d98056cbc33')">
+        <p>Villain deep</p>
+      </div>
+      <div id="villian_sinister" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Fvillian_senester.png?alt=media&token=24dd5bac-54d4-4f24-a368-7b17e9d8c5f6')">
+        <p>Villain sinister</p>
+      </div>
+      <div id="fairy" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Ffairy%20soft.png?alt=media&token=9379e536-22ea-4777-8d32-6952746a4c86')">
+        <p>Fairy</p>
+      </div>
+      <div id="alien_high_pitch" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Falien.png?alt=media&token=d7056849-dd60-4da3-ab73-98584c6cf30f')">
+        <p>Alien high pitch</p>
+      </div>
+      <div id="alien_echoey" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Falien_echo.png?alt=media&token=9e2683d5-09e9-4200-b1b2-b98cc19c45db')">
+        <p>Alien Echo</p>
+      </div>
+      <div id="chinese_accent" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Fchineseman.png?alt=media&token=2c5484d4-df1b-4e38-9ba3-43b47e5fc8bd')">
+        <p>Chinese</p>
+      </div>
+      <div id="monster_deep" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Fmonster.png?alt=media&token=d63c4e23-341e-40ab-bd30-302a3fa10c78')">
+        <p>Monster</p>
+      </div>
+      <div id="american_accent_casual" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Famerican.png?alt=media&token=6c610594-d51d-4419-88be-fbbb94d12545')">
+        <p>American accent</p>
+      </div>
+      <div id="british_accent_formal" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Fukman.png?alt=media&token=7a74ff7f-fbcb-4801-8850-85a46a27cf4a')">
+        <p>British accent</p>
+      </div>
+      <div id="spanish_accent"style="background-image: url('https://firebasestorage.googleapis.com/v0/b/speechscribeapp.appspot.com/o/SpeechScribe%20images%2Fspanish.png?alt=media&token=defa16bd-5f72-4024-b7b9-de6c4c6dee17')">
+        <p>Spanish accent</p>
+      </div>
+    </div>
+  </div>
+  
+  <script src="/SpeechScribe_Frontend/src/scripts/vox.js"></script>
+</body>
+
+</html>

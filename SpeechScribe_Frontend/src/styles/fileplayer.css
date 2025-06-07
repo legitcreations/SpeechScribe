@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+
+* {
+  padding: 0;
+  font-family: "Fredoka", sans-serif;
+  margin: 0;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  transition: .2s linear 0s;
+  color: #000000;
+}
+::-webkit-scrollbar {
+  width: 0px; /* Width of scrollbar */
+}
+/* color syntax */
+:root {
+  --faintBlue: #adbbda5e;
+  --borderLineWidth: 1px;
+  --borderRadius: 10px;
+  --dimBlue: #4f2fe8fc;
+  --lightBlue: #7091e6;
+  --darkBlue: #8697ca;
+  --headerBackground: #262736;
+  --faintBlack: #6b6b6b;
+  --pageBackgroundColor: #EDE8F5;
+  --dimColor: #3c3e5a;
+  --paddingSmall: 10px;
+  --paddingBig: 20px;
+}
+#filePlayerCover{
+  position: fixed;
+  z-index: 1;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: var(--headerBackground);
+  height: 100%;
+  width: 100%;
+  display: none;
+  place-items: center;
+  top: 0;
+  left: 0;
+  padding: 15px;
+}
+#filePlayerContainer{
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  box-shadow: 0 0 5px #00000012;
+  background: var(--dimColor);
+  padding: 10px;
+  display: flex;
+  font-size: 14px;
+  gap: 1%;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: space-between;
+}
+#playerHeader{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap:15px;
+  height: auto;
+ 
+}
+#playerHeaderIcons{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+#playerHeaderIcons i, .fa-times{
+  color: white;
+  cursor: pointer;
+  padding: 15px 20px; 
+  background: var(--headerBackground);
+  border-radius: 30px;
+  font-size: 14px;
+  
+}
+#playerHeaderIcons i:nth-child(2){
+  border: none;
+  cursor: pointer;
+  color: #F40909;
+  background: #fff;
+  border-radius: none;
+}
+#fileDetails *{
+  color:#FFFFFFB8;
+}
+#fileNameContainer{
+  display: flex;
+  gap:10px;
+  align-items: center;
+}
+#fileNameContainer span{
+  display: flex;
+  font-size: 1.2rem;
+  gap:10px;
+  color: #FFFFFf!important;
+  font-weight: 500;
+  align-items: center;
+}
+#playerCanvas{
+  height:41%;
+  border-radius: 30px;
+  width: auto;
+  box-shadow: 0 0 5px #0000000F;
+}
+#playerControls{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  grid-row-gap: 20px;
+  padding-top: 1%;
+}
+#controlAlt{
+  display:flex;
+  justify-content: space-between;
+  font-size: 16px;
+  align-items: center;
+  padding: 0 15px;
+}
+#shareFile{
+  color: #38B76E;
+}
+#downloadFile{
+  color:var(--lightBlue);
+}
+#controlAlt p{
+  color: #fff;
+  font-size: 18px;
+}
+
+#audioControls{
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+}
+#audioControls i {
+  padding: 15px;
+  display: block;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 1);
+  color: var(--dimColor);
+}
+.fa-play{
+  width: 3.5rem;
+  height: 3.5rem;
+  line-height: 3.5rem;
+  text-align: center;
+  background: var(--lightBlue)!important;
+  color: #FFF!important;
+  align-items: center;
+  font-size: 20px;
+  line-height: 1.75rem!important;
+}
+button{
+  padding: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  background: #38B76E;
+  color: #fff;
+  font-size: 16px;
+}
+
+#editTab{
+  display: none;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+  z-index: 2;
+}
+#editTab div{
+  display: flex;
+  flex-direction: column;
+  background: whitesmoke;
+  border-radius: 30px;
+  padding: 20px;
+  gap: 20px;
+  overflow: hidden;
+  width: 75%;
+  align-items: center;
+}
+#editTab i{
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
+  position: absolute;
+  
+}
+#inputId{
+  width: 100%;
+  font-size: 16px;
+  padding: 15px;
+  outline: none;
+  border: none;
+  border-radius: 30px;
+}
+#saveFileNameButton{
+  padding: 16px 20px; 
+}
+@media (min-width: 768px) {
+  #filePlayerContainer{
+    width: 50%;
+    height:100%;
+    padding: 20px;
+  }
+}
