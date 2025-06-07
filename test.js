@@ -1,4 +1,4 @@
-
+/
 const signupForm = document.getElementById('signupForm');
 const signupButton = document.getElementById('signupButton');
 
