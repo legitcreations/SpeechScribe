@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "speechscribeapp",
+  "private_key_id": "ab9fc495f00ef9dbc630974e3ce7e029bcd40d08",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCZDk2REBw72Ecs\nwBGEm/ebc75o62/05FeCeZbbkAREdjY1Swl30T0/mRklnsKtLAG1wW7JMhduFPWn\nsoMY3prAR7sfKsCGBFeLRi9kloxq5ShuXRB/rNQLuoEM5L7TL/FdVscWI52AXGFc\nNUzoLTPU3aGsWmhuezhpkzGNGwjJ35Yo1wpQx6ov5EBhOelukPx0L/qopD2HsgO+\n9X2zZW/ww1X/U64nFX5JhPlrlgy7QtxwtqnZKZVcOl94/E8XXAUYjxlGlTrjBfya\nxqQBD1IpCdMFKeIavQlnvAVj6da3mDOZWYaVknSnxnTZbmd8nP9o5VLl08DkNSCD\n9xajKPAfAgMBAAECggEAKNX5mQoY1li6iLSIF/76/cVQWLL0UHz54ixptRQEJ3X4\nuZhXIto3QrgozvJAU67JmAJPeiu8t5itADyvIJwH4uRghwzDiB4xc03bCDXoqf6R\nHn0DEWV9v9FXbCa9yR/iAHrOLFh9RcmgCleIOOwSh6lIYPFQKqYCo5xrnI/JdP6i\nN3KvTepjVqsQrlmzYC503u3Gaimd77eeq1YUUGOZ8hm675fvz6hi6GDI4FCnnr0P\nZEhwt5uNLEejOHLaHDj4heszi67+zGb2K7cZGvrVIbulVXXxhpIptLkj6B5Cxzo9\nRNksQPbYu30PyniT/jpNV7Fa/3wD4tajyfVVVRICFQKBgQDTnd0vB74wp8e9/yHu\nsmFPGyyLhsoKOgtdHgXhKhh1QUMOmnyTEOP2+pqAESRrWCQvc8ei3g+BQHmt2ikE\n2ts3YhAgqgNoUiFUZLLC+RU+mdEMYn+GoPHG9qtRkoGlnFsfsOgzhUP6VzvBGtYN\nm1pka1E14jnYndkSFIVA43C4LQKBgQC5KDB2dAxvjZ//6e6M3Z0I/EyNVGB/hJbi\nb8L0g0UcvoM2vEEimnKGZYwxBtox/NZViLm/76f+fI9PjGRC6FcCEdQmuWOlYQOo\nXqSiYAjGJzIOCzuMo5cmM4/ZAkhT7fKDQa25IvyTJ6zgcw0PWrFy/CIw9QEVDjoN\nLp8E7DNM+wKBgH5I6SQV1NQobDTgOpm97gBNUSn6yDuOJBXvwsZ6Xpoq1h+y5cDG\nBaTwLJ9cm4VL1lxTFcIGDu6tUXAEjxIMoWHNrZ4wl1P8H1PDvEJKbvkqxexEI6Ju\nDZsUvWwyqBfy1RZ2dju4vbZ5tHkq0K7SFQF0YcRsOuUgXdhCUrtEf5IJAoGAQkkX\nAHEPOqhzDUUMN7Xm0B6ysS3x1fT7p1jnbG3KQj4Z73B5yQ+NzHtyMuMHHjor6Tcn\neIUtmTeyfoH+Ks3OyFjloG9iMwSGMLKhMdg7i+TgUJLI4NJ3/B8dck0U46cd2Muc\ni9jwnyXnB/toQ4TuXgHRo8Eyf/013x4/o52DyB0CgYA1f51o8Rkb7S0i2DBHSpU1\nUqNwWXDxG2cRm7sbC1tAbq11mbf8SP/LjzavpCpGzhxeH4b+QJJ4hElBRaow1edq\nhgGTZjIDFJX6Ouyvbn7TrrApbnefR9IbshEnt9xnob2MGmuk2pH3pOdnHs/eSv3V\nPr6QHT76BBPBApUpCAI7yA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "recaptcha-enterprise-client@speechscribeapp.iam.gserviceaccount.com",
+  "client_id": "107965978051176644143",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/recaptcha-enterprise-client%40speechscribeapp.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
