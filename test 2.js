@@ -7,7 +7,7 @@ require('dotenv').config();
 
 // ✅ Initialize Firebase (only once)
 if (!admin.apps.length) {
-  const serviceAccount = require('./serviceAccountKey.json');
+  const serviceAccount = require('recaptchaKey.json');
   
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -17,7 +17,9 @@ if (!admin.apps.length) {
 
 // ✅ reCAPTCHA Enterprise Verification
 async function verifyRecaptchaEnterprise(token, expectedAction) {
-  const client = new RecaptchaEnterpriseServiceClient();
+  const client = new RecaptchaEnterpriseServiceClient({
+  keyFilename: 'recaptchaKey.json' // Use correct relative path
+});
   const projectId = 'speechscribeapp'; // 🔁 Your GCP project ID
   const siteKey = '6Lf8f1crAAAAAFdWZ4v-vjvuRi9iwNIIwBAN3uFR'; // 🔁 Your reCAPTCHA site key
   
@@ -123,6 +125,8 @@ router.post('/signup', async (req, res) => {
     console.error('Signup error:', err.message);
     return res.status(500).json({ error: 'Internal server error', details: err.message });
   }
+  console.log("🔥 Received signup request");
+  console.log("🧾 Body:", req.body);
 });
 
 module.exports = router;
