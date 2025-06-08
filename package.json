@@ -1,5 +1,5 @@
 {
-  "name": "SpeechScribe",
+  "name": "speechscribe",
   "version": "1.10.0",
   "description": "SpeechScribe is a voice recording application that allows users to record audio, transcribe their voice, and choose between human or AI-powered translation services. It includes features for pausing, resuming, and stopping recordings, visualizing audio frequency bars, and saving recordings locally",
   "main": "SpeechScribe_Frontend/src/scripts/main.js",
@@ -48,5 +48,6 @@
   "bugs": {
     "url": "https://github.com/legitcreations/SpeechScribe/issues"
   },
-  "homepage": "https://github.com/legitcreations /SpeechScribe#readme"
+  "homepage": "https://github.com/legitcreations /SpeechScribe#readme",
+  "devDependencies": {}
 }
