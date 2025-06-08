@@ -10,7 +10,7 @@ node_modules/
 # Firebase cache
 .firebase/
 
-/SpeechScribe_Backend/recaptchaKey.json
+SpeechScribe_Backend/recaptchaKey.json
 # Firebase config
 
 # .firebaserc
