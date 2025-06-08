@@ -7,7 +7,7 @@ require('dotenv').config();
 
 // ✅ Initialize Firebase (only once)
 if (!admin.apps.length) {
-  const serviceAccount = require('./recaptchaKey.json');
+  const serviceAccount = require('recaptchaKey.json');
   
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -18,7 +18,7 @@ if (!admin.apps.length) {
 // ✅ reCAPTCHA Enterprise Verification
 async function verifyRecaptchaEnterprise(token, expectedAction) {
   const client = new RecaptchaEnterpriseServiceClient({
-  keyFilename: './SpeechScribe_Backend/recaptchaKey.json' // Use correct relative path
+  keyFilename: 'recaptchaKey.json' // Use correct relative path
 });
   const projectId = 'speechscribeapp'; // 🔁 Your GCP project ID
   const siteKey = '6Lf8f1crAAAAAFdWZ4v-vjvuRi9iwNIIwBAN3uFR'; // 🔁 Your reCAPTCHA site key

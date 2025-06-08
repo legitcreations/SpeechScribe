@@ -77,7 +77,7 @@ signupForm.addEventListener('submit', async (e) => {
     
     signupStatus.textContent = "Signup successful! Redirecting...";
     setTimeout(() => {
-      window.location.href = "/SpeechScribe_Frontend/src/pages/auth/login.html";
+      window.location.href = "SpeechScribe_Frontend/src/pages/auth/login.html";
     }, 2000);
     
   } catch (err) {
