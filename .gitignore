@@ -9,8 +9,8 @@ firebase-debug.*.log*
 node_modules/
 # Firebase cache
 .firebase/
-SpeechScribe_Backend/recaptchaKey.json
-../SpeechScribe_Backend/recaptchaKey.json
+
+/SpeechScribe_Backend/recaptchaKey.json
 # Firebase config
 
 # .firebaserc
@@ -65,3 +65,4 @@ build/Release
 # dataconnect generated files
 .dataconnect
 /recaptchaKey.json
+
