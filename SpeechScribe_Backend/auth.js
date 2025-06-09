@@ -8,8 +8,7 @@ require('dotenv').config();
 // ✅ Initialize Firebase (only once)
 if (!admin.apps.length) {
   const serviceAccount = require('recaptchaKey.json');
-  const serviceAccount = require('recaptchaKey.json');
-  
+
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://speechscribeapp-default-rtdb.firebaseio.com' // 🔁 Use your actual DB URL
