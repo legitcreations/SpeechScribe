@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const axios = require('axios')
 const admin = require('firebase-admin');
 const CryptoJS = require('crypto-js');
-const { RecaptchaEnterpriseServiceClient } = require('@google-cloud/recaptcha-enterprise');
 require('dotenv').config();
 
 // ✅ Initialize Firebase (only once)
@@ -15,13 +15,18 @@ if (!admin.apps.length) {
   });
 }
 
+const axios = require('axios');
+
+
+// Replace your verifyRecaptchaEnterprise with:
+
 // ✅ reCAPTCHA Enterprise Verification
 async function verifyRecaptchaEnterprise(token, expectedAction) {
-  const client = new RecaptchaEnterpriseServiceClient({
-  keyFilename: 'recaptchaKey.json'  // Use correct relative path
-});
+  const client = await axios.post(
+    `https://www.google.com/recaptcha/api/siteverify?secret=${6LdnbFcrAAAAAIuFgkQ3mAPUUXJJt5-77P53Irug}&response=${6LdnbFcrAAAAAHwgdOujpkl08gkk6U1i_9fKJS87}`
+  return client.data
   const projectId = 'speechscribeapp'; // 🔁 Your GCP project ID
-  const siteKey = '6Lf8f1crAAAAAFdWZ4v-vjvuRi9iwNIIwBAN3uFR'; // 🔁 Your reCAPTCHA site key
+  const siteKey = '6Le58VorAAAAAMBO_-3mGm5li27zi3in7eLjLiMw'; // 🔁 Your reCAPTCHA site key
   
   const [response] = await client.createAssessment({
     parent: client.projectPath(projectId),

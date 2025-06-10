@@ -2,7 +2,7 @@
   "name": "SpeechScribe",
   "short_name": "Scribe",
   "description": "A powerful voice-to-text transcription web app with advanced recording and playback features.",
-  "start_url": "/SpeechScribe_Frontend/Public/landing.html",
+  "start_url": "/SpeechScribe_Frontend/Public/index.html",
   
   "display": "standalone",
   "background_color": "#ffffff",

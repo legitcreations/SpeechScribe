@@ -1,6 +1,10 @@
 {
   "hosting": {
+<<<<<<< HEAD
     "public": "/SpeechScribe_Frontend/Public",
+=======
+    "public": "/SpeechScribe_Frontend/Public ",
+>>>>>>> e777de2 (latest)
     "ignore": [
       "firebase.json",
       "**/.*",
